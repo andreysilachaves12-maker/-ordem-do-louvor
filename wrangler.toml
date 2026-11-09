@@ -7,3 +7,7 @@ binding = "DB"
 database_name = "ordem-do-louvor"
 database_id = "a9d195d4-7d96-4e33-9e11-e4e6650c5e01"
 migrations_dir = "drizzle"
+[[previews.d1_databases]]
+binding = "DB"
+database_name = "ordem-do-louvor-preview"
+database_id = "6feb6f16-de6d-47c9-9333-ff4c9c2a8a4f"

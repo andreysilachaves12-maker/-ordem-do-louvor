@@ -1,7 +1,7 @@
 const page = `<!doctype html>
 <html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ordem do Louvor</title>
 <style>
-:root{color-scheme:dark;font:16px system-ui,sans-serif;background:#111729;color:#f7f4ec}*{box-sizing:border-box}[hidden]{display:none!important}body{margin:0}header{background:radial-gradient(ellipse at right,#313864,#191f38 66%);border-bottom:1px solid #424966;padding:3rem 1.2rem 5rem}header>div,main{max-width:700px;margin:auto}.marca,.secao{color:#ffce82;font-size:.75rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase}h1{font-size:clamp(2.6rem,9vw,4rem);line-height:1;margin:.55rem 0;font-family:Georgia,serif;font-weight:normal}p{color:#c4cae2;line-height:1.5}header p{margin:.8rem 0 0}main{position:relative;margin:-2.25rem auto 3rem;padding:0 1rem}.card,nav,article{border:1px solid #404967;background:#1b233b;border-radius:18px;padding:1.25rem}nav{display:flex;padding:.35rem;gap:.35rem;margin-bottom:1rem}nav button{flex:1;border:0;padding:.75rem .35rem;min-width:0;font-size:.9rem}textarea{resize:vertical}.orientacoes{white-space:pre-wrap;overflow-wrap:anywhere}button,a{font:inherit}button,.acoes .cifra{cursor:pointer;padding:.8rem 1rem;border-radius:10px;border:1px solid #606c91;background:#293453;color:#fff;font-weight:700}button[aria-pressed=true],.primary{background:#ffce82;color:#221b15;border-color:#ffce82}button:disabled{opacity:.65;cursor:wait}h2{margin:.35rem 0 .5rem}label,legend{font-weight:700}label.campo{display:block;margin-top:1rem}select,textarea,input:not([type=radio]):not([type=checkbox]){display:block;width:100%;margin-top:.4rem;background:#141b30;color:#fff;border:1px solid #657094;border-radius:9px;padding:.78rem;font:inherit}fieldset{margin:1.15rem 0;padding:.7rem;border:1px solid #606c91;border-radius:10px;display:flex;flex-wrap:wrap;gap:1rem}fieldset label{padding:.35rem;cursor:pointer}input[type=radio]{accent-color:#ffce82}.primary{width:100%}#aviso{min-height:1.5em;color:#ffda9e}article{margin-top:.75rem;padding:1rem;background:#151c31}article h3{margin:.35rem 0;font-size:1.3rem;overflow-wrap:anywhere}.grupo{margin:.35rem 0;color:#c4cae2;overflow-wrap:anywhere}.acoes{display:flex;align-items:center;flex-wrap:wrap;gap:.75rem;margin-top:.75rem}.acoes a{color:#ffda9e}.acoes .cifra{text-decoration:none}.barra{display:flex;align-items:center;justify-content:space-between;gap:.5rem}.status{color:#b8e6ca;font-weight:700}.vazio{padding:1rem;border:1px dashed #657094;border-radius:12px}:focus-visible{outline:3px solid #ffce82;outline-offset:3px}
+:root{color-scheme:dark;font:16px system-ui,sans-serif;background:#111729;color:#f7f4ec}*{box-sizing:border-box}[hidden]{display:none!important}body{margin:0}header{background:radial-gradient(ellipse at right,#313864,#191f38 66%);border-bottom:1px solid #424966;padding:3rem 1.2rem 5rem}header>div,main{max-width:700px;margin:auto}.marca,.secao{color:#ffce82;font-size:.75rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase}h1{font-size:clamp(2.6rem,9vw,4rem);line-height:1;margin:.55rem 0;font-family:Georgia,serif;font-weight:normal}p{color:#c4cae2;line-height:1.5}header p{margin:.8rem 0 0}main{position:relative;margin:-2.25rem auto 3rem;padding:0 1rem}.card,nav,article{border:1px solid #404967;background:#1b233b;border-radius:18px;padding:1.25rem}nav{display:flex;padding:.35rem;gap:.35rem;margin-bottom:1rem}nav button{flex:1;border:0;padding:.75rem .35rem;min-width:0;font-size:.9rem}textarea{resize:vertical}.orientacoes{white-space:pre-wrap;overflow-wrap:anywhere}button,a{font:inherit}button,.acoes .cifra{cursor:pointer;padding:.8rem 1rem;border-radius:10px;border:1px solid #606c91;background:#293453;color:#fff;font-weight:700}button[aria-pressed=true],.primary{background:#ffce82;color:#221b15;border-color:#ffce82}button:disabled{opacity:.65;cursor:wait}h2{margin:.35rem 0 .5rem}label,legend{font-weight:700}label.campo{display:block;margin-top:1rem}select,textarea,input:not([type=radio]):not([type=checkbox]){display:block;width:100%;margin-top:.4rem;background:#141b30;color:#fff;border:1px solid #657094;border-radius:9px;padding:.78rem;font:inherit}fieldset{margin:1.15rem 0;padding:.7rem;border:1px solid #606c91;border-radius:10px;display:flex;flex-wrap:wrap;gap:1rem}fieldset label{padding:.35rem;cursor:pointer}input[type=radio]{accent-color:#ffce82}.primary{width:100%}#aviso{min-height:1.5em;color:#ffda9e}article{margin-top:.75rem;padding:1rem;background:#151c31}article h3{margin:.35rem 0;font-size:1.3rem;overflow-wrap:anywhere}.grupo{margin:.35rem 0;color:#c4cae2;overflow-wrap:anywhere}.acoes{display:flex;align-items:center;flex-wrap:wrap;gap:.75rem;margin-top:.75rem}.acoes a{color:#ffda9e}.acoes .cifra{text-decoration:none}.barra{display:flex;align-items:center;justify-content:space-between;gap:.5rem}.status{color:#b8e6ca;font-weight:700}.status-pendente{color:#ffda9e;font-weight:700}.vazio{padding:1rem;border:1px dashed #657094;border-radius:12px}:focus-visible{outline:3px solid #ffce82;outline-offset:3px}
 .acoes .excluir{background:transparent;color:#ffb8b8;border-color:#915d6e}
 #player,#confirmar-exclusao,#acesso{width:min(92vw,680px);max-height:90dvh;border:1px solid #606c91;border-radius:18px;background:#1b233b;color:#f7f4ec;padding:1rem}#player::backdrop,#confirmar-exclusao::backdrop,#acesso::backdrop{background:#080c18cc}#player-video iframe{display:block;width:100%;aspect-ratio:16/9;min-height:200px;border:0;margin-top:1rem}
 </style></head><body>
@@ -15,7 +15,7 @@ const page = `<!doctype html>
 <label class="campo">Data do louvor<input name="data_louvor" type="date" min="0001-01-01" max="9999-12-31" required></label>
 <fieldset><legend>Como será tocado?</legend><label><input required type="radio" name="modo" value="vivo"> Ao vivo com os músicos</label><label><input required type="radio" name="modo" value="audio"> Áudio no computador</label></fieldset>
 <label class="campo">Tom e orientações (opcional)<textarea name="orientacoes" maxlength="1000" rows="3" placeholder="Ex.: Tom de Ré, começar pelo refrão"></textarea></label><br>
-<button class="primary" type="submit">Enviar para a mídia</button></form><hr><h2>Meus envios</h2><p>Aqui aparecem os envios deste cadastro, neste navegador. Envios anteriores continuam sob controle do ADM.</p><div id="meus-envios"></div></div></section>
+<button class="primary" type="submit">Enviar para a mídia</button></form><hr><div class="barra"><h2>Meus envios</h2><button id="atualizar-envios" type="button">Atualizar status</button></div><p>Acompanhe quando a equipe de mídia confirmar o recebimento dos seus hinos.</p><div id="meus-envios" aria-live="polite"></div></div></section>
 <section class="card" id="midia" hidden><div class="secao" id="secao-lista">Equipe de mídia</div><div class="barra"><h2 id="titulo-lista">Hinos recebidos</h2><button id="atualizar">Atualizar</button></div><label class="campo">Data do culto<input id="filtro-data" type="date"></label><p><button id="todas-datas">Próximos cultos</button></p><div id="fila"></div></section>
 <p id="aviso" role="status"></p></main>
 <dialog id="player" aria-labelledby="player-titulo">
@@ -179,17 +179,22 @@ async function carregar(silencioso = false) {
       add(card,'div',modo[hino.modo],'secao');
       add(card,'h3',hino.hino);
       add(card,'p',hino.grupo,'grupo');
-      if (hino.cantor) add(card,'p','Cantor: ' + hino.cantor,'grupo');
-      if (hino.orientacoes) add(card,'p','Tom e orientações: ' + hino.orientacoes,'orientacoes');
+      add(card,'p','Regente: ' + (hino.regente_nome || 'Não informado'),'grupo');
       if (hino.data_louvor) {
-        const data = add(card,'time',hino.data_louvor.split('-').reverse().join('/'));
+        const data = add(card,'time','Será tocado em: ' + hino.data_louvor.split('-').reverse().join('/'),'grupo');
         data.dateTime = hino.data_louvor;
       } else {
         add(card,'p','Data a definir','grupo');
       }
+      if (hino.cantor) add(card,'p','Cantor: ' + hino.cantor,'grupo');
+      if (hino.orientacoes) add(card,'p','Tom e orientações: ' + hino.orientacoes,'orientacoes');
       const acoes = add(card,'div','','acoes');
       const tocar = add(acoes,'button','Tocar hino');
       tocar.onclick = () => abrirVideo(hino);
+      const youtube = add(acoes,'a','Abrir no YouTube','cifra');
+      youtube.href = hino.youtube;
+      youtube.target = '_blank';
+      youtube.rel = 'noopener noreferrer';
       const cifra = add(acoes,'a','Buscar cifra','cifra');
       const busca = new URL('https://www.bing.com/search');
       busca.searchParams.set('q', hino.hino + ' ' + (hino.cantor || '') + ' cifra');
@@ -202,7 +207,7 @@ async function carregar(silencioso = false) {
         letra.href = buscaLetra.href;
         letra.rel = 'noreferrer';
       }
-      if (hino.recebido) add(acoes,'span','Recebido pela mídia','status');
+      if (hino.recebido) add(acoes,'span','Confirmado pela mídia','status');
       else if (abaAtual !== 'musicos') {
         const botao = add(acoes,'button','Confirmar recebimento');
         botao.onclick = async () => {
@@ -251,12 +256,18 @@ function abrir(aba, senha = null) {
   delete el('fila').dataset.atual;
   aviso.textContent = '';
   if (!midia.hidden) carregar();
+  else if (perfilAtual) mostrarEnvios();
 }
 el('aba-regente').onclick = () => abrir('regente');
 el('filtro-data').onchange = () => carregar();
 el('todas-datas').onclick = () => {el('filtro-data').value = ''; carregar();};
 el('atualizar').onclick = () => carregar();
 setInterval(() => {if (!midia.hidden && !document.hidden) carregar(true);},15000);
+setInterval(() => {if (el('regente').hidden === false && !document.hidden && perfilAtual) mostrarEnvios();},15000);
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden && !el('regente').hidden && perfilAtual) mostrarEnvios();
+});
+el('atualizar-envios').onclick = () => mostrarEnvios();
 form.onsubmit = async event => {
   event.preventDefault();
   const botao = form.querySelector('button');
@@ -352,11 +363,17 @@ async function mostrarEnvios() {
   try {
     const envios = await api('/api/meus-envios');
     if (pedido !== revisaoConta) return;
+    const atual = JSON.stringify(envios);
+    if (lista.dataset.atual === atual) return;
     lista.replaceChildren();
+    lista.dataset.atual = atual;
     if (!envios.length) add(lista,'p','Seus próximos envios aparecerão aqui.','vazio');
     for (const envio of envios) {
       const card = add(lista,'article',''); add(card,'h3',envio.hino);
-      add(card,'p',envio.grupo + ' · ' + (envio.data_louvor ? envio.data_louvor.split('-').reverse().join('/') : 'Sem data'),'grupo');
+      add(card,'p',envio.grupo,'grupo');
+      add(card,'p','Regente: ' + (perfilAtual?.nome || 'Não informado'),'grupo');
+      add(card,'p',envio.data_louvor ? 'Será tocado em: ' + envio.data_louvor.split('-').reverse().join('/') : 'Data a definir','grupo');
+      add(card,'p',envio.recebido ? '✓ Confirmado pela mídia' : 'Aguardando confirmação da mídia', envio.recebido ? 'status' : 'status-pendente');
       const acoes = add(card,'div','','acoes'); const excluir = add(acoes,'button','Excluir meu envio','excluir'); excluir.type = 'button';
       excluir.onclick = async () => {
         if (!confirm('Excluir “' + envio.hino + '” do repertório?')) return;
@@ -367,7 +384,7 @@ async function mostrarEnvios() {
         } catch (erro) {aviso.textContent = erro.message; excluir.disabled = false;}
       };
     }
-  } catch (erro) {lista.replaceChildren(); add(lista,'p',erro.message);}
+  } catch (erro) {delete lista.dataset.atual; lista.replaceChildren(); add(lista,'p',erro.message);}
 }
 async function iniciarPerfil() {
   await carregarGrupos();
@@ -476,7 +493,7 @@ export default {
       if (request.method === 'GET' && url.pathname === '/api/meus-envios') {
         const conta = await obterConta(request,env);
         if (!conta) return json({erro:'Preencha o cadastro para ver seus envios.'},401);
-        const {results} = await env.DB.prepare('SELECT id,grupo,hino,data_louvor FROM hinos WHERE perfil_id = ? ORDER BY id DESC').bind(conta.id).all();
+        const {results} = await env.DB.prepare('SELECT id,grupo,hino,data_louvor,recebido FROM hinos WHERE perfil_id = ? ORDER BY id DESC').bind(conta.id).all();
         return json(results);
       }
       if (request.method === 'GET' && url.pathname === '/api/grupos') {
@@ -491,8 +508,8 @@ export default {
         const data = url.searchParams.get('data');
         if (data !== null && !dataValida(data)) return json({erro:'Data inválida.'},400);
         const {results} = await env.DB.prepare(data
-          ? 'SELECT id,grupo,hino,youtube,modo,data_louvor,cantor,orientacoes,recebido FROM hinos WHERE data_louvor = ? ORDER BY id DESC'
-          : 'SELECT id,grupo,hino,youtube,modo,data_louvor,cantor,orientacoes,recebido FROM hinos WHERE data_louvor IS NULL OR data_louvor >= ? ORDER BY id DESC'
+          ? 'SELECT h.id,h.grupo,h.hino,h.youtube,h.modo,h.data_louvor,h.cantor,h.orientacoes,h.recebido,p.nome AS regente_nome FROM hinos h LEFT JOIN perfis p ON p.id = h.perfil_id WHERE h.data_louvor = ? ORDER BY id DESC'
+          : 'SELECT h.id,h.grupo,h.hino,h.youtube,h.modo,h.data_louvor,h.cantor,h.orientacoes,h.recebido,p.nome AS regente_nome FROM hinos h LEFT JOIN perfis p ON p.id = h.perfil_id WHERE h.data_louvor IS NULL OR h.data_louvor >= ? ORDER BY id DESC'
         ).bind(data || hoje()).all();
         return json(results);
       }

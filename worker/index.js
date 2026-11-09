@@ -225,6 +225,7 @@ async function carregar(silencioso = false) {
           exclusao.showModal();
         };
       }
+      if (hino.regente) add(card,'p','Enviado por: ' + hino.regente + ' (regente)','grupo');
     }
     if (!silencioso || fila.dataset.atual !== JSON.stringify(hinos)) {
       fila.replaceChildren(fragmento);
@@ -490,9 +491,10 @@ export default {
         }
         const data = url.searchParams.get('data');
         if (data !== null && !dataValida(data)) return json({erro:'Data inválida.'},400);
-        const {results} = await env.DB.prepare(data
-          ? 'SELECT id,grupo,hino,youtube,modo,data_louvor,cantor,orientacoes,recebido FROM hinos WHERE data_louvor = ? ORDER BY id DESC'
-          : 'SELECT id,grupo,hino,youtube,modo,data_louvor,cantor,orientacoes,recebido FROM hinos WHERE data_louvor IS NULL OR data_louvor >= ? ORDER BY id DESC'
+        const filtro = data ? 'h.data_louvor = ?' : '(h.data_louvor IS NULL OR h.data_louvor >= ?)';
+        const {results} = await env.DB.prepare(
+          'SELECT h.id,h.grupo,h.hino,h.youtube,h.modo,h.data_louvor,h.cantor,h.orientacoes,h.recebido,p.nome AS regente ' +
+          'FROM hinos h LEFT JOIN perfis p ON p.id = h.perfil_id WHERE ' + filtro + ' ORDER BY h.id DESC'
         ).bind(data || hoje()).all();
         return json(results);
       }

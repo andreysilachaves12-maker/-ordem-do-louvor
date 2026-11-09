@@ -216,7 +216,21 @@ async function carregar(silencioso = false) {
     const fila = el('fila');
     const fragmento = document.createDocumentFragment();
     if (!hinos.length) add(fragmento,'p','Nenhum hino encontrado para este período.','vazio');
-    for (const hino of hinos) {
+    // Músicos veem primeiro a programação ao vivo e depois a reserva da mídia.
+    // Mídia e ADM continuam vendo todos os hinos na ordem habitual.
+    const hinosExibidos = abaAtual === 'musicos'
+      ? [...hinos.filter(hino => hino.modo === 'vivo'), ...hinos.filter(hino => hino.modo !== 'vivo')]
+      : hinos;
+    let secaoAnterior = null;
+    for (const hino of hinosExibidos) {
+      if (abaAtual === 'musicos') {
+        const secao = hino.modo === 'vivo' ? 'vivo' : 'audio';
+        if (secao !== secaoAnterior) {
+          add(fragmento,'h2',secao === 'vivo' ? '🎸 Louvores ao vivo' : '💻 Plano B — áudio no computador');
+          if (secao === 'audio') add(fragmento,'p','Estes louvores serão reproduzidos pela mídia. Os músicos podem consultá-los se o computador falhar.','grupo');
+          secaoAnterior = secao;
+        }
+      }
       const card = add(fragmento,'article','');
       card.dataset.hinoId = hino.id;
       add(card,'div',modo[hino.modo],'secao');

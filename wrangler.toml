@@ -1,0 +1,9 @@
+name = "ordem-do-louvor"
+main = "worker/index.js"
+compatibility_date = "2026-11-08"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "ordem-do-louvor"
+database_id = "a9d195d4-7d96-4e33-9e11-e4e6650c5e01"
+migrations_dir = "drizzle"

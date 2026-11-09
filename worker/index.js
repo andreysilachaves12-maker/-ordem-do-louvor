@@ -2,16 +2,17 @@ const page = `<!doctype html>
 <html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ordem do Louvor</title>
 <style>
 :root{color-scheme:dark;font:16px system-ui,sans-serif;background:#111729;color:#f7f4ec}*{box-sizing:border-box}[hidden]{display:none!important}body{margin:0}header{background:radial-gradient(ellipse at right,#313864,#191f38 66%);border-bottom:1px solid #424966;padding:3rem 1.2rem 5rem}header>div,main{max-width:700px;margin:auto}.marca,.secao{color:#ffce82;font-size:.75rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase}h1{font-size:clamp(2.6rem,9vw,4rem);line-height:1;margin:.55rem 0;font-family:Georgia,serif;font-weight:normal}p{color:#c4cae2;line-height:1.5}header p{margin:.8rem 0 0}main{position:relative;margin:-2.25rem auto 3rem;padding:0 1rem}.card,nav,article{border:1px solid #404967;background:#1b233b;border-radius:18px;padding:1.25rem}nav{display:flex;padding:.35rem;gap:.35rem;margin-bottom:1rem}nav button{flex:1;border:0;padding:.75rem .35rem;min-width:0;font-size:.9rem}textarea{resize:vertical}.orientacoes{white-space:pre-wrap;overflow-wrap:anywhere}button,a{font:inherit}button,.acoes .cifra{cursor:pointer;padding:.8rem 1rem;border-radius:10px;border:1px solid #606c91;background:#293453;color:#fff;font-weight:700}button[aria-pressed=true],.primary{background:#ffce82;color:#221b15;border-color:#ffce82}button:disabled{opacity:.65;cursor:wait}h2{margin:.35rem 0 .5rem}label,legend{font-weight:700}label.campo{display:block;margin-top:1rem}select,textarea,input:not([type=radio]):not([type=checkbox]){display:block;width:100%;margin-top:.4rem;background:#141b30;color:#fff;border:1px solid #657094;border-radius:9px;padding:.78rem;font:inherit}fieldset{margin:1.15rem 0;padding:.7rem;border:1px solid #606c91;border-radius:10px;display:flex;flex-wrap:wrap;gap:1rem}fieldset label{padding:.35rem;cursor:pointer}input[type=radio]{accent-color:#ffce82}.primary{width:100%}#aviso{min-height:1.5em;color:#ffda9e}article{margin-top:.75rem;padding:1rem;background:#151c31}article h3{margin:.35rem 0;font-size:1.3rem;overflow-wrap:anywhere}.grupo{margin:.35rem 0;color:#c4cae2;overflow-wrap:anywhere}.acoes{display:flex;align-items:center;flex-wrap:wrap;gap:.75rem;margin-top:.75rem}.acoes a{color:#ffda9e}.acoes .cifra{text-decoration:none}.barra{display:flex;align-items:center;justify-content:space-between;gap:.5rem}.status{color:#b8e6ca;font-weight:700}.status-pendente{color:#ffda9e;font-weight:700}.vazio{padding:1rem;border:1px dashed #657094;border-radius:12px}:focus-visible{outline:3px solid #ffce82;outline-offset:3px}
-.acoes .excluir{background:transparent;color:#ffb8b8;border-color:#915d6e}
-#player,#confirmar-exclusao,#acesso{width:min(92vw,680px);max-height:90dvh;border:1px solid #606c91;border-radius:18px;background:#1b233b;color:#f7f4ec;padding:1rem}#player::backdrop,#confirmar-exclusao::backdrop,#acesso::backdrop{background:#080c18cc}#player-video iframe{display:block;width:100%;aspect-ratio:16/9;min-height:200px;border:0;margin-top:1rem}
+.acoes .excluir{background:transparent;color:#ffb8b8;border-color:#915d6e}#youtube-resultados article{display:flex;gap:.85rem;align-items:flex-start}#youtube-resultados img{width:120px;max-width:34%;aspect-ratio:16/9;object-fit:cover;border-radius:8px}#youtube-resultados .resultado-conteudo{flex:1;min-width:0}#youtube-resultados .resultado-conteudo p{margin:.3rem 0 .6rem}#youtube-resultados button{padding:.55rem .75rem}
+#player,#confirmar-exclusao,#acesso,#busca-youtube-dialog{width:min(92vw,680px);max-height:90dvh;border:1px solid #606c91;border-radius:18px;background:#1b233b;color:#f7f4ec;padding:1rem}#player::backdrop,#confirmar-exclusao::backdrop,#acesso::backdrop,#busca-youtube-dialog::backdrop{background:#080c18cc}#player-video iframe{display:block;width:100%;aspect-ratio:16/9;min-height:200px;border:0;margin-top:1rem}
 </style></head><body>
 <header><div><div class="marca">♫ &nbsp; Equipe do culto</div><h1>Ordem do Louvor</h1><p>O repertório da igreja em um só lugar.</p></div></header>
 <main><nav aria-label="Área de trabalho"><button id="aba-regente" aria-pressed="true">Regente</button><button id="aba-musicos" aria-pressed="false">Músicos</button><button id="aba-midia" aria-pressed="false">Mídia</button><button id="aba-adm" aria-pressed="false">ADM</button></nav>
 <section class="card" id="regente"><div class="secao">Cadastro</div><div id="conta-entrada"><h2>Cadastro do regente</h2><p>Informe seu nome e marque os grupos que você dirige. O cadastro fica salvo neste navegador, sem senha.</p><form id="form-conta"><label class="campo">Nome do regente<input name="nome" required maxlength="100" autocomplete="name" placeholder="Seu nome"></label><fieldset id="grupos-perfil"><legend>De quais grupos você é regente?</legend></fieldset><div class="acoes"><label class="campo">Não encontrou seu grupo?<input id="novo-grupo-perfil" maxlength="100" placeholder="Nome do novo grupo"></label><button id="adicionar-grupo-perfil" type="button">Adicionar grupo</button></div><p id="conta-erro" role="status"></p><button class="primary" type="submit">Salvar cadastro</button><p><button id="cancelar-perfil" type="button" hidden>Cancelar</button></p></form></div><div id="conta-conteudo" hidden><div class="barra"><p id="conta-nome"></p><button id="editar-perfil" type="button">Alterar cadastro</button></div><h2>Enviar um hino</h2><form id="form">
 <label class="campo">Nome do grupo<select name="grupo" id="grupo" required><option value="">Selecione o grupo</option></select></label><label class="campo" id="novo-grupo-campo" hidden>Novo grupo<input id="novo-grupo" maxlength="100" placeholder="Digite o nome do grupo"></label>
-<label class="campo">Nome do hino exatamente como está no YouTube<input name="hino" maxlength="150" placeholder="Copie o título do hino no YouTube" required></label>
-<label class="campo">Cantor ou ministério (opcional)<input name="cantor" maxlength="150" placeholder="Artista da versão escolhida"></label>
-<label class="campo">Link do YouTube<input name="youtube" type="url" maxlength="2048" placeholder="https://youtu.be/…" required></label>
+<label class="campo">Nome do hino<input name="hino" maxlength="150" placeholder="Digite o nome do hino" required></label>
+<div class="acoes"><button id="buscar-youtube" type="button">🔎 Buscar no YouTube</button></div><p>Pesquise pelo nome, escolha a versão e o título e link serão preenchidos automaticamente.</p>
+<label class="campo">Cantor ou canal do YouTube (pode corrigir)<input name="cantor" maxlength="150" placeholder="Artista da versão escolhida"></label>
+<label class="campo">Link do YouTube<input name="youtube" type="url" maxlength="2048" placeholder="Preenchido ao selecionar o vídeo; ou cole manualmente" required></label>
 <label class="campo">Data do louvor<input name="data_louvor" type="date" min="0001-01-01" max="9999-12-31" required></label>
 <fieldset><legend>Como será tocado?</legend><label><input required type="radio" name="modo" value="vivo"> Ao vivo com os músicos</label><label><input required type="radio" name="modo" value="audio"> Áudio no computador</label></fieldset>
 <label class="campo">Tom e orientações (opcional)<textarea name="orientacoes" maxlength="1000" rows="3" placeholder="Ex.: Tom de Ré, começar pelo refrão"></textarea></label><br>
@@ -24,6 +25,7 @@ const page = `<!doctype html>
 <div class="acoes"><a id="player-link" target="_blank" rel="noopener">Abrir no YouTube</a></div>
 <p>Se o vídeo estiver indisponível aqui, abra pelo YouTube.</p>
 </dialog>
+<dialog id="busca-youtube-dialog" aria-labelledby="busca-youtube-titulo"><div class="barra"><h2 id="busca-youtube-titulo">Escolha o hino no YouTube</h2><form method="dialog"><button>Fechar</button></form></div><div id="youtube-resultados" aria-live="polite"></div></dialog>
 <dialog id="acesso" aria-labelledby="acesso-titulo">
 <form id="form-acesso">
 <h2 id="acesso-titulo">Entrar como ADM</h2>
@@ -45,6 +47,47 @@ const page = `<!doctype html>
 const el = id => document.getElementById(id);
 const aviso = el('aviso');
 const form = el('form');
+const buscaYouTube = el('busca-youtube-dialog');
+const resultadosYouTube = el('youtube-resultados');
+let consultaYouTube = 0;
+el('buscar-youtube').onclick = async () => {
+  const consulta = form.elements.hino.value.trim();
+  if (consulta.length < 2) { form.elements.hino.focus(); aviso.textContent = 'Digite ao menos 2 letras do nome do hino.'; return; }
+  const pedido = ++consultaYouTube;
+  resultadosYouTube.replaceChildren();
+  add(resultadosYouTube,'p','Buscando vídeos…');
+  buscaYouTube.showModal();
+  try {
+    const videos = await api('/api/youtube?q=' + encodeURIComponent(consulta));
+    if (pedido !== consultaYouTube || !buscaYouTube.open) return;
+    resultadosYouTube.replaceChildren();
+    if (!videos.length) { add(resultadosYouTube,'p','Nenhum vídeo encontrado. Você também pode colar o link manualmente.'); return; }
+    for (const video of videos) {
+      const card = add(resultadosYouTube,'article','');
+      const foto = document.createElement('img');
+      foto.src = 'https://i.ytimg.com/vi/' + encodeURIComponent(video.id) + '/mqdefault.jpg';
+      foto.alt = ''; foto.loading = 'lazy';
+      const corpo = add(card,'div','','resultado-conteudo');
+      add(corpo,'h3',video.titulo);
+      add(corpo,'p','Canal: ' + video.canal,'grupo');
+      const selecionar = add(corpo,'button','Selecionar este vídeo');
+      selecionar.type = 'button';
+      selecionar.onclick = () => {
+        form.elements.hino.value = video.titulo.slice(0,150);
+        form.elements.cantor.value = video.canal.slice(0,150);
+        form.elements.youtube.value = 'https://www.youtube.com/watch?v=' + video.id;
+        buscaYouTube.close();
+        aviso.textContent = 'Vídeo selecionado! Confira o cantor e complete os outros campos.';
+      };
+      card.prepend(foto);
+    }
+  } catch (erro) {
+    if (pedido !== consultaYouTube || !buscaYouTube.open) return;
+    resultadosYouTube.replaceChildren();
+    add(resultadosYouTube,'p',erro.message);
+    add(resultadosYouTube,'p','Você pode continuar colando o link do YouTube manualmente.');
+  }
+};
 const midia = el('midia');
 const modo = {vivo:'Ao vivo com os músicos',audio:'Áudio no computador'};
 const player = el('player');
@@ -493,6 +536,30 @@ export default {
         if (request.headers.get('Sec-Fetch-Site') === 'cross-site') return json({erro:'Origem inválida.'},403);
       }
       if (url.pathname === '/api/perfil') return await rotaPerfil(request,env);
+      if (request.method === 'GET' && url.pathname === '/api/youtube') {
+        const conta = await obterConta(request,env);
+        if (!conta) return json({erro:'Cadastre o regente antes de buscar hinos.'},401);
+        const termo = (url.searchParams.get('q') || '').trim();
+        if (termo.length < 2 || termo.length > 120) return json({erro:'Digite de 2 a 120 caracteres para buscar.'},400);
+        if (!env.YOUTUBE_API_KEY) return json({erro:'A busca do YouTube ainda precisa ser configurada pelo administrador.'},503);
+        const consulta = new URL('https://www.googleapis.com/youtube/v3/search');
+        consulta.searchParams.set('part','snippet');
+        consulta.searchParams.set('type','video');
+        consulta.searchParams.set('maxResults','8');
+        consulta.searchParams.set('q',termo);
+        consulta.searchParams.set('key',env.YOUTUBE_API_KEY);
+        const resposta = await fetch(consulta.toString());
+        if (!resposta.ok) {
+          console.error('YouTube API status:',resposta.status);
+          return json({erro:resposta.status === 403 ? 'A chave do YouTube está sem permissão ou a cota de buscas acabou.' : 'Não foi possível buscar no YouTube agora.'},502);
+        }
+        const dados = await resposta.json();
+        return json((dados.items || []).filter(item => /^[A-Za-z0-9_-]{11}$/.test(item.id?.videoId || '')).map(item => ({
+          id:item.id.videoId,
+          titulo:(item.snippet?.title || '').slice(0,150),
+          canal:(item.snippet?.channelTitle || '').slice(0,150)
+        })));
+      }
       if (request.method === 'GET' && url.pathname === '/api/meus-envios') {
         const conta = await obterConta(request,env);
         if (!conta) return json({erro:'Preencha o cadastro para ver seus envios.'},401);

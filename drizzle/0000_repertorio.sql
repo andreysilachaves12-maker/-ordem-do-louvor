@@ -1,0 +1,8 @@
+CREATE TABLE hinos (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  grupo TEXT NOT NULL,
+  hino TEXT NOT NULL,
+  youtube TEXT NOT NULL,
+  modo TEXT NOT NULL CHECK(modo IN ('vivo','audio')),
+  recebido INTEGER NOT NULL DEFAULT 0
+);

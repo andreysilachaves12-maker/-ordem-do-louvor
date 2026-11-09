@@ -469,9 +469,12 @@ async function rotaPerfil(request,env) {
 }
 
 function verificarSenha(senha, env) {
-  if (!env.ADMIN_PASSWORD) return json({erro:'A senha do administrador ainda não foi configurada.'},503);
+  // A configuração antiga do Cloudflare utilizava SENHA_DE_ADMINISTRADOR.
+  // Aceitar os dois nomes mantém Mídia e ADM funcionando após a implantação.
+  const senhaAdm = env.ADMIN_PASSWORD || env.SENHA_DE_ADMINISTRADOR;
+  if (!senhaAdm) return json({erro:'A senha do administrador ainda não foi configurada.'},503);
   if (typeof senha !== 'string' || senha.length > 128 ||
-      senha.replace(/\s/g, '') !== env.ADMIN_PASSWORD) {
+      senha.replace(/\s/g, '') !== senhaAdm) {
     return json({erro:'Senha incorreta.'},403);
   }
   return null;
@@ -508,8 +511,8 @@ export default {
         const data = url.searchParams.get('data');
         if (data !== null && !dataValida(data)) return json({erro:'Data inválida.'},400);
         const {results} = await env.DB.prepare(data
-          ? 'SELECT h.id,h.grupo,h.hino,h.youtube,h.modo,h.data_louvor,h.cantor,h.orientacoes,h.recebido,p.nome AS regente_nome FROM hinos h LEFT JOIN perfis p ON p.id = h.perfil_id WHERE h.data_louvor = ? ORDER BY id DESC'
-          : 'SELECT h.id,h.grupo,h.hino,h.youtube,h.modo,h.data_louvor,h.cantor,h.orientacoes,h.recebido,p.nome AS regente_nome FROM hinos h LEFT JOIN perfis p ON p.id = h.perfil_id WHERE h.data_louvor IS NULL OR h.data_louvor >= ? ORDER BY id DESC'
+          ? 'SELECT h.id,h.grupo,h.hino,h.youtube,h.modo,h.data_louvor,h.cantor,h.orientacoes,h.recebido,p.nome AS regente_nome FROM hinos h LEFT JOIN perfis p ON p.id = h.perfil_id WHERE h.data_louvor = ? ORDER BY h.id DESC'
+          : 'SELECT h.id,h.grupo,h.hino,h.youtube,h.modo,h.data_louvor,h.cantor,h.orientacoes,h.recebido,p.nome AS regente_nome FROM hinos h LEFT JOIN perfis p ON p.id = h.perfil_id WHERE h.data_louvor IS NULL OR h.data_louvor >= ? ORDER BY h.id DESC'
         ).bind(data || hoje()).all();
         return json(results);
       }

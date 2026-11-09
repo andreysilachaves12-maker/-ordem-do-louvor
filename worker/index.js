@@ -3,6 +3,7 @@ const page = `<!doctype html>
 <style>
 :root{color-scheme:dark;font:16px system-ui,sans-serif;background:#111729;color:#f7f4ec}*{box-sizing:border-box}[hidden]{display:none!important}body{margin:0}header{background:radial-gradient(ellipse at right,#313864,#191f38 66%);border-bottom:1px solid #424966;padding:3rem 1.2rem 5rem}header>div,main{max-width:700px;margin:auto}.marca,.secao{color:#ffce82;font-size:.75rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase}h1{font-size:clamp(2.6rem,9vw,4rem);line-height:1;margin:.55rem 0;font-family:Georgia,serif;font-weight:normal}p{color:#c4cae2;line-height:1.5}header p{margin:.8rem 0 0}main{position:relative;margin:-2.25rem auto 3rem;padding:0 1rem}.card,nav,article{border:1px solid #404967;background:#1b233b;border-radius:18px;padding:1.25rem}nav{display:flex;padding:.35rem;gap:.35rem;margin-bottom:1rem}nav button{flex:1;border:0;padding:.75rem .35rem;min-width:0;font-size:.9rem}textarea{resize:vertical}.orientacoes{white-space:pre-wrap;overflow-wrap:anywhere}button,a{font:inherit}button,.acoes .cifra{cursor:pointer;padding:.8rem 1rem;border-radius:10px;border:1px solid #606c91;background:#293453;color:#fff;font-weight:700}button[aria-pressed=true],.primary{background:#ffce82;color:#221b15;border-color:#ffce82}button:disabled{opacity:.65;cursor:wait}h2{margin:.35rem 0 .5rem}label,legend{font-weight:700}label.campo{display:block;margin-top:1rem}select,textarea,input:not([type=radio]):not([type=checkbox]){display:block;width:100%;margin-top:.4rem;background:#141b30;color:#fff;border:1px solid #657094;border-radius:9px;padding:.78rem;font:inherit}fieldset{margin:1.15rem 0;padding:.7rem;border:1px solid #606c91;border-radius:10px;display:flex;flex-wrap:wrap;gap:1rem}fieldset label{padding:.35rem;cursor:pointer}input[type=radio]{accent-color:#ffce82}.primary{width:100%}#aviso{min-height:1.5em;color:#ffda9e}article{margin-top:.75rem;padding:1rem;background:#151c31}article h3{margin:.35rem 0;font-size:1.3rem;overflow-wrap:anywhere}.grupo{margin:.35rem 0;color:#c4cae2;overflow-wrap:anywhere}.acoes{display:flex;align-items:center;flex-wrap:wrap;gap:.75rem;margin-top:.75rem}.acoes a{color:#ffda9e}.acoes .cifra{text-decoration:none}.barra{display:flex;align-items:center;justify-content:space-between;gap:.5rem}.status{color:#b8e6ca;font-weight:700}.status-pendente{color:#ffda9e;font-weight:700}.vazio{padding:1rem;border:1px dashed #657094;border-radius:12px}:focus-visible{outline:3px solid #ffce82;outline-offset:3px}
 .acoes .excluir{background:transparent;color:#ffb8b8;border-color:#915d6e}#youtube-resultados article{display:flex;gap:.85rem;align-items:flex-start}#youtube-resultados img{width:120px;max-width:34%;aspect-ratio:16/9;object-fit:cover;border-radius:8px}#youtube-resultados .resultado-conteudo{flex:1;min-width:0}#youtube-resultados .resultado-conteudo p{margin:.3rem 0 .6rem}#youtube-resultados button{padding:.55rem .75rem}
+#plano-b-musicos{margin-top:1.25rem;padding:.8rem 1rem;border:1px solid #606c91;border-radius:14px;background:#151c31}#plano-b-musicos summary{cursor:pointer;color:#ffce82;font-weight:800;line-height:1.5;padding:.3rem 0}#plano-b-musicos[open] summary{margin-bottom:.5rem}#plano-b-musicos article{background:#1b233b}
 #player,#confirmar-exclusao,#acesso,#busca-youtube-dialog{width:min(92vw,680px);max-height:90dvh;border:1px solid #606c91;border-radius:18px;background:#1b233b;color:#f7f4ec;padding:1rem}#player::backdrop,#confirmar-exclusao::backdrop,#acesso::backdrop,#busca-youtube-dialog::backdrop{background:#080c18cc}#player-video iframe{display:block;width:100%;aspect-ratio:16/9;min-height:200px;border:0;margin-top:1rem}
 </style></head><body>
 <header><div><div class="marca">♫ &nbsp; Equipe do culto</div><h1>Ordem do Louvor</h1><p>O repertório da igreja em um só lugar.</p></div></header>
@@ -215,23 +216,28 @@ async function carregar(silencioso = false) {
     if (pedido !== revisao || midia.hidden) return;
     const fila = el('fila');
     const fragmento = document.createDocumentFragment();
-    if (!hinos.length) add(fragmento,'p','Nenhum hino encontrado para este período.','vazio');
-    // Músicos veem primeiro a programação ao vivo e depois a reserva da mídia.
-    // Mídia e ADM continuam vendo todos os hinos na ordem habitual.
-    const hinosExibidos = abaAtual === 'musicos'
-      ? [...hinos.filter(hino => hino.modo === 'vivo'), ...hinos.filter(hino => hino.modo !== 'vivo')]
-      : hinos;
-    let secaoAnterior = null;
-    for (const hino of hinosExibidos) {
-      if (abaAtual === 'musicos') {
-        const secao = hino.modo === 'vivo' ? 'vivo' : 'audio';
-        if (secao !== secaoAnterior) {
-          add(fragmento,'h2',secao === 'vivo' ? '🎸 Louvores ao vivo' : '💻 Plano B — áudio no computador');
-          if (secao === 'audio') add(fragmento,'p','Estes louvores serão reproduzidos pela mídia. Os músicos podem consultá-los se o computador falhar.','grupo');
-          secaoAnterior = secao;
-        }
+    if (!hinos.length && abaAtual !== 'musicos') add(fragmento,'p','Nenhum hino encontrado para este período.','vazio');
+    // Na área dos músicos, os hinos ao vivo ficam visíveis; os áudios ficam
+    // no Plano B recolhido, sem afetar as listas da Mídia e do ADM.
+    const aoVivo = abaAtual === 'musicos' ? hinos.filter(hino => hino.modo === 'vivo') : [];
+    const audioReserva = abaAtual === 'musicos' ? hinos.filter(hino => hino.modo !== 'vivo') : [];
+    let planoB = null;
+    if (abaAtual === 'musicos') {
+      add(fragmento,'h2','🎸 Louvores ao vivo');
+      if (!aoVivo.length) add(fragmento,'p','Nenhum louvor ao vivo programado para este período.','vazio');
+      if (audioReserva.length) {
+        planoB = document.createElement('details');
+        planoB.id = 'plano-b-musicos';
+        // Mantém o Plano B aberto se a lista for atualizada automaticamente.
+        planoB.open = Boolean(fila.querySelector('#plano-b-musicos')?.open);
+        add(planoB,'summary','💻 Plano B — áudio no computador (' + audioReserva.length + ')');
+        add(planoB,'p','Louvores em áudio da mídia para consultar se o computador falhar.','grupo');
       }
-      const card = add(fragmento,'article','');
+    }
+    const hinosExibidos = abaAtual === 'musicos' ? [...aoVivo, ...audioReserva] : hinos;
+    for (const hino of hinosExibidos) {
+      const destino = abaAtual === 'musicos' && hino.modo !== 'vivo' ? planoB : fragmento;
+      const card = add(destino,'article','');
       card.dataset.hinoId = hino.id;
       add(card,'div',modo[hino.modo],'secao');
       add(card,'h3',hino.hino);
@@ -288,6 +294,7 @@ async function carregar(silencioso = false) {
         };
       }
     }
+    if (planoB) fragmento.append(planoB);
     if (!silencioso || fila.dataset.atual !== JSON.stringify(hinos)) {
       fila.replaceChildren(fragmento);
       fila.dataset.atual = JSON.stringify(hinos);

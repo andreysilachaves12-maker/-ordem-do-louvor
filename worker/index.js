@@ -451,6 +451,7 @@ form.onsubmit = async event => {
 };
 
 let musicoPerfilAtual = null;
+let editandoMusico = false;
 function preencherGruposMusico() {
   const area = el('musico-grupos');
   const selecionados = musicoPerfilAtual?.grupos || [];
@@ -495,7 +496,7 @@ function desenharCompromissosMusico(dados) {
   }
 }
 async function carregarCompromissosMusicos() {
-  if (abaAtual !== 'musicos') return;
+  if (abaAtual !== 'musicos' || editandoMusico) return;
   const area = el('lista-compromissos-musico');
   try {
     const perfil = await api('/api/musico/perfil');
@@ -510,6 +511,7 @@ async function carregarCompromissosMusicos() {
   } catch(erro) {area.replaceChildren();add(area,'p',erro.message,'vazio');}
 }
 el('alterar-musico').onclick=()=>{
+  editandoMusico=true;
   el('musico-entrada').hidden=false;el('musico-logado').hidden=true;
   el('form-musico').elements.nome.value=musicoPerfilAtual?.nome||'';
   el('form-musico').elements.instrumento.value=musicoPerfilAtual?.instrumento||'';
@@ -527,6 +529,7 @@ el('form-musico').onsubmit=async event=>{
     musicoPerfilAtual=await api('/api/musico/perfil',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
       nome:dados.get('nome'),instrumento:dados.get('instrumento'),grupos:dados.getAll('grupos')
     })});
+    editandoMusico=false;
     await carregarCompromissosMusicos();
   }catch(erro){el('musico-erro').textContent=erro.message;}
   finally{for(const botao of botoes)botao.disabled=false;}

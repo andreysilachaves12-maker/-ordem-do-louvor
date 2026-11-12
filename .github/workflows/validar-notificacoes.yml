@@ -1,0 +1,18 @@
+name: Validar notificacoes
+on:
+  push:
+    branches: ['feature/notificacoes-celular']
+  pull_request:
+    paths: ['worker/index.js', 'scripts/validate-push.mjs']
+jobs:
+  verificacao:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verificar worker
+        run: node --check worker/index.js
+      - name: Verificar tela e service worker
+        run: node scripts/validate-push.mjs

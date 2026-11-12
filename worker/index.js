@@ -1,13 +1,15 @@
 const page = `<!doctype html>
-<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ordem do Louvor</title>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ordem do Louvor</title><link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#111729">
 <style>
 :root{color-scheme:dark;font:16px system-ui,sans-serif;background:#111729;color:#f7f4ec}*{box-sizing:border-box}[hidden]{display:none!important}body{margin:0}header{background:radial-gradient(ellipse at right,#313864,#191f38 66%);border-bottom:1px solid #424966;padding:3rem 1.2rem 5rem}header>div,main{max-width:700px;margin:auto}.marca,.secao{color:#ffce82;font-size:.75rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase}h1{font-size:clamp(2.6rem,9vw,4rem);line-height:1;margin:.55rem 0;font-family:Georgia,serif;font-weight:normal}p{color:#c4cae2;line-height:1.5}header p{margin:.8rem 0 0}main{position:relative;margin:-2.25rem auto 3rem;padding:0 1rem}.card,nav,article{border:1px solid #404967;background:#1b233b;border-radius:18px;padding:1.25rem}nav{display:flex;padding:.35rem;gap:.35rem;margin-bottom:1rem}nav button{flex:1;border:0;padding:.75rem .35rem;min-width:0;font-size:.9rem}textarea{resize:vertical}.orientacoes{white-space:pre-wrap;overflow-wrap:anywhere}button,a{font:inherit}button,.acoes .cifra{cursor:pointer;padding:.8rem 1rem;border-radius:10px;border:1px solid #606c91;background:#293453;color:#fff;font-weight:700}button[aria-pressed=true],.primary{background:#ffce82;color:#221b15;border-color:#ffce82}button:disabled{opacity:.65;cursor:wait}h2{margin:.35rem 0 .5rem}label,legend{font-weight:700}label.campo{display:block;margin-top:1rem}select,textarea,input:not([type=radio]):not([type=checkbox]){display:block;width:100%;margin-top:.4rem;background:#141b30;color:#fff;border:1px solid #657094;border-radius:9px;padding:.78rem;font:inherit}fieldset{margin:1.15rem 0;padding:.7rem;border:1px solid #606c91;border-radius:10px;display:flex;flex-wrap:wrap;gap:1rem}fieldset label{padding:.35rem;cursor:pointer}input[type=radio]{accent-color:#ffce82}.primary{width:100%}#aviso{min-height:1.5em;color:#ffda9e}article{margin-top:.75rem;padding:1rem;background:#151c31}article h3{margin:.35rem 0;font-size:1.3rem;overflow-wrap:anywhere}.grupo{margin:.35rem 0;color:#c4cae2;overflow-wrap:anywhere}.acoes{display:flex;align-items:center;flex-wrap:wrap;gap:.75rem;margin-top:.75rem}.acoes a{color:#ffda9e}.acoes .cifra{text-decoration:none}.barra{display:flex;align-items:center;justify-content:space-between;gap:.5rem}.status{color:#b8e6ca;font-weight:700}.status-pendente{color:#ffda9e;font-weight:700}.vazio{padding:1rem;border:1px dashed #657094;border-radius:12px}:focus-visible{outline:3px solid #ffce82;outline-offset:3px}
 .acoes .excluir{background:transparent;color:#ffb8b8;border-color:#915d6e}#youtube-resultados article{display:flex;gap:.85rem;align-items:flex-start}#youtube-resultados img{width:120px;max-width:34%;aspect-ratio:16/9;object-fit:cover;border-radius:8px}#youtube-resultados .resultado-conteudo{flex:1;min-width:0}#youtube-resultados .resultado-conteudo p{margin:.3rem 0 .6rem}#youtube-resultados button{padding:.55rem .75rem}
 #plano-b-musicos{margin-top:1.25rem;padding:.8rem 1rem;border:1px solid #606c91;border-radius:14px;background:#151c31}#plano-b-musicos summary{cursor:pointer;color:#ffce82;font-weight:800;line-height:1.5;padding:.3rem 0}#plano-b-musicos[open] summary{margin-bottom:.5rem}#plano-b-musicos article{background:#1b233b}
 #player,#confirmar-exclusao,#acesso,#busca-youtube-dialog{width:min(92vw,680px);max-height:90dvh;border:1px solid #606c91;border-radius:18px;background:#1b233b;color:#f7f4ec;padding:1rem}#player::backdrop,#confirmar-exclusao::backdrop,#acesso::backdrop,#busca-youtube-dialog::backdrop{background:#080c18cc}#player-video iframe{display:block;width:100%;aspect-ratio:16/9;min-height:200px;border:0;margin-top:1rem}
+#alertas-config{margin-bottom:1rem;padding:.8rem 1rem;border:1px solid #404967;border-radius:14px;background:#1b233b}#alertas-config p{font-size:.85rem;margin:.35rem 0 0}#alertas-config .acoes{margin-top:0}#alertas-config button{font-size:.9rem;padding:.65rem .8rem}#notificacoes-status{color:#d5e0ff}
 </style></head><body>
 <header><div><div class="marca">♫ &nbsp; Equipe do culto</div><h1>Ordem do Louvor</h1><p>O repertório da igreja em um só lugar.</p></div></header>
 <main><nav aria-label="Área de trabalho"><button id="aba-regente" aria-pressed="true">Regente</button><button id="aba-musicos" aria-pressed="false">Músicos</button><button id="aba-midia" aria-pressed="false">Mídia</button><button id="aba-adm" aria-pressed="false">ADM</button></nav>
+<div id="alertas-config"><div class="acoes"><button id="notificacoes-btn" type="button">🔔 Ativar notificações</button><button id="notificacoes-parar" type="button" hidden>Desativar neste celular</button></div><p id="notificacoes-status" role="status">Receba avisos dos louvores diretamente no seu celular.</p></div>
 <section class="card" id="regente"><div class="secao">Cadastro</div><div id="conta-entrada"><h2>Cadastro do regente</h2><p>Informe seu nome e marque os grupos que você dirige. O cadastro fica salvo neste navegador, sem senha.</p><form id="form-conta"><label class="campo">Nome do regente<input name="nome" required maxlength="100" autocomplete="name" placeholder="Seu nome"></label><fieldset id="grupos-perfil"><legend>De quais grupos você é regente?</legend></fieldset><div class="acoes"><label class="campo">Não encontrou seu grupo?<input id="novo-grupo-perfil" maxlength="100" placeholder="Nome do novo grupo"></label><button id="adicionar-grupo-perfil" type="button">Adicionar grupo</button></div><p id="conta-erro" role="status"></p><button class="primary" type="submit">Salvar cadastro</button><p><button id="cancelar-perfil" type="button" hidden>Cancelar</button></p></form></div><div id="conta-conteudo" hidden><div class="barra"><p id="conta-nome"></p><button id="editar-perfil" type="button">Alterar cadastro</button></div><h2>Enviar um hino</h2><form id="form">
 <label class="campo">Nome do grupo<select name="grupo" id="grupo" required><option value="">Selecione o grupo</option></select></label><label class="campo" id="novo-grupo-campo" hidden>Novo grupo<input id="novo-grupo" maxlength="100" placeholder="Digite o nome do grupo"></label>
 <label class="campo">Nome do hino<input name="hino" maxlength="150" placeholder="Digite o nome do hino" required></label>
@@ -89,6 +91,68 @@ el('buscar-youtube').onclick = async () => {
     add(resultadosYouTube,'p','Você pode continuar colando o link do YouTube manualmente.');
   }
 };
+// Inscrição voluntária nas notificações push; nenhum aviso é pedido sem toque do usuário.
+function decodificarChavePush(chave) {
+  const base64 = chave.replace(/-/g,'+').replace(/_/g,'/');
+  const binario = atob(base64 + '='.repeat((4 - base64.length % 4) % 4));
+  return Uint8Array.from(binario, c => c.charCodeAt(0));
+}
+const botaoNotificacoes = el('notificacoes-btn');
+const pararNotificacoes = el('notificacoes-parar');
+const statusNotificacoes = el('notificacoes-status');
+const suportePush = 'serviceWorker' in navigator && 'PushManager' in window && 'Notification' in window;
+if (!suportePush) statusNotificacoes.textContent = 'Este navegador não oferece notificações push. Tente pelo Chrome atualizado.';
+botaoNotificacoes.onclick = async () => {
+  if (!suportePush) return;
+  const papel = abaAtual === 'regente' ? 'regente' : abaAtual === 'musicos' ? 'musicos' : 'midia';
+  if (papel === 'regente' && !perfilAtual) {
+    statusNotificacoes.textContent = 'Primeiro salve seu cadastro de regente.';
+    return;
+  }
+  // A permissão deve ser solicitada diretamente após o clique.
+  let permissao = Notification.permission;
+  if (permissao === 'default') permissao = await Notification.requestPermission();
+  if (permissao !== 'granted') {
+    statusNotificacoes.textContent = 'Notificações não autorizadas. Ative a permissão nas configurações do navegador.';
+    return;
+  }
+  botaoNotificacoes.disabled = true;
+  try {
+    const registro = await navigator.serviceWorker.register('/sw.js');
+    const configuracao = await api('/api/push/config');
+    let assinatura = await registro.pushManager.getSubscription();
+    if (!assinatura) assinatura = await registro.pushManager.subscribe({
+      userVisibleOnly:true,
+      applicationServerKey:decodificarChavePush(configuracao.chavePublica)
+    });
+    await api('/api/push/inscrever',{
+      method:'POST',
+      headers:{'Content-Type':'application/json', 'X-Repertorio-Senha':senhaAcesso || ''},
+      body:JSON.stringify({papel,assinatura:assinatura.toJSON()})
+    });
+    statusNotificacoes.textContent = '✅ Avisos ativados para ' + (papel === 'regente' ? 'o regente' : papel === 'musicos' ? 'os músicos' : 'a mídia') + ' neste celular.';
+    pararNotificacoes.hidden = false;
+  } catch (erro) {
+    statusNotificacoes.textContent = 'Não foi possível ativar: ' + erro.message;
+  } finally {
+    botaoNotificacoes.disabled = false;
+  }
+};
+pararNotificacoes.onclick = async () => {
+  try {
+    const registro = await navigator.serviceWorker.getRegistration('/sw.js');
+    const assinatura = await registro?.pushManager?.getSubscription();
+    if (assinatura) {
+      await api('/api/push/inscrever',{method:'DELETE',headers:{'Content-Type':'application/json'},body:JSON.stringify({endpoint:assinatura.endpoint})});
+      await assinatura.unsubscribe();
+    }
+    pararNotificacoes.hidden = true;
+    statusNotificacoes.textContent = 'Notificações desativadas neste celular.';
+  } catch (erro) {
+    statusNotificacoes.textContent = 'Não foi possível desativar: ' + erro.message;
+  }
+};
+
 const midia = el('midia');
 const modo = {vivo:'Ao vivo com os músicos',audio:'Áudio no computador'};
 const player = el('player');

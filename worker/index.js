@@ -4,6 +4,7 @@ const page = `<!doctype html>
 :root{color-scheme:dark;font:16px system-ui,sans-serif;background:#111729;color:#f7f4ec}*{box-sizing:border-box}[hidden]{display:none!important}body{margin:0}header{background:radial-gradient(ellipse at right,#313864,#191f38 66%);border-bottom:1px solid #424966;padding:3rem 1.2rem 5rem}header>div,main{max-width:700px;margin:auto}.marca,.secao{color:#ffce82;font-size:.75rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase}h1{font-size:clamp(2.6rem,9vw,4rem);line-height:1;margin:.55rem 0;font-family:Georgia,serif;font-weight:normal}p{color:#c4cae2;line-height:1.5}header p{margin:.8rem 0 0}main{position:relative;margin:-2.25rem auto 3rem;padding:0 1rem}.card,nav,article{border:1px solid #404967;background:#1b233b;border-radius:18px;padding:1.25rem}nav{display:flex;padding:.35rem;gap:.35rem;margin-bottom:1rem}nav button{flex:1;border:0;padding:.75rem .35rem;min-width:0;font-size:.9rem}textarea{resize:vertical}.orientacoes{white-space:pre-wrap;overflow-wrap:anywhere}button,a{font:inherit}button,.acoes .cifra{cursor:pointer;padding:.8rem 1rem;border-radius:10px;border:1px solid #606c91;background:#293453;color:#fff;font-weight:700}button[aria-pressed=true],.primary{background:#ffce82;color:#221b15;border-color:#ffce82}button:disabled{opacity:.65;cursor:wait}h2{margin:.35rem 0 .5rem}label,legend{font-weight:700}label.campo{display:block;margin-top:1rem}select,textarea,input:not([type=radio]):not([type=checkbox]){display:block;width:100%;margin-top:.4rem;background:#141b30;color:#fff;border:1px solid #657094;border-radius:9px;padding:.78rem;font:inherit}fieldset{margin:1.15rem 0;padding:.7rem;border:1px solid #606c91;border-radius:10px;display:flex;flex-wrap:wrap;gap:1rem}fieldset label{padding:.35rem;cursor:pointer}input[type=radio]{accent-color:#ffce82}.primary{width:100%}#aviso{min-height:1.5em;color:#ffda9e}article{margin-top:.75rem;padding:1rem;background:#151c31}article h3{margin:.35rem 0;font-size:1.3rem;overflow-wrap:anywhere}.grupo{margin:.35rem 0;color:#c4cae2;overflow-wrap:anywhere}.acoes{display:flex;align-items:center;flex-wrap:wrap;gap:.75rem;margin-top:.75rem}.acoes a{color:#ffda9e}.acoes .cifra{text-decoration:none}.barra{display:flex;align-items:center;justify-content:space-between;gap:.5rem}.status{color:#b8e6ca;font-weight:700}.status-pendente{color:#ffda9e;font-weight:700}.vazio{padding:1rem;border:1px dashed #657094;border-radius:12px}:focus-visible{outline:3px solid #ffce82;outline-offset:3px}
 .acoes .excluir{background:transparent;color:#ffb8b8;border-color:#915d6e}#youtube-resultados article{display:flex;gap:.85rem;align-items:flex-start}#youtube-resultados img{width:120px;max-width:34%;aspect-ratio:16/9;object-fit:cover;border-radius:8px}#youtube-resultados .resultado-conteudo{flex:1;min-width:0}#youtube-resultados .resultado-conteudo p{margin:.3rem 0 .6rem}#youtube-resultados button{padding:.55rem .75rem}
 #plano-b-musicos{margin-top:1.25rem;padding:.8rem 1rem;border:1px solid #606c91;border-radius:14px;background:#151c31}#plano-b-musicos summary{cursor:pointer;color:#ffce82;font-weight:800;line-height:1.5;padding:.3rem 0}#plano-b-musicos[open] summary{margin-bottom:.5rem}#plano-b-musicos article{background:#1b233b}
+.presencas-area{margin:1rem 0}.presencas-area article{padding:1rem}.presencas-area h3{margin:.35rem 0}.presencas-status{font-weight:700;color:#ffce82}.presencas-selecoes{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.75rem}.presencas-selecoes button{flex:1;min-width:120px}.presencas-selecoes button[aria-pressed=true]{background:#ffce82;color:#221b15}.presencas-apoio{font-size:.9rem;color:#c4cae2}.presencas-detalhes{white-space:pre-wrap;overflow-wrap:anywhere}.presencas-grupos{display:flex;flex-wrap:wrap;gap:.65rem;padding:.65rem;border:1px solid #606c91;border-radius:10px;margin-top:.6rem}.presencas-grupos label{font-weight:normal}.presencas-resumo{margin:.3rem 0}.link-musicos{color:#ffce82;overflow-wrap:anywhere}
 #player,#confirmar-exclusao,#acesso,#busca-youtube-dialog{width:min(92vw,680px);max-height:90dvh;border:1px solid #606c91;border-radius:18px;background:#1b233b;color:#f7f4ec;padding:1rem}#player::backdrop,#confirmar-exclusao::backdrop,#acesso::backdrop,#busca-youtube-dialog::backdrop{background:#080c18cc}#player-video iframe{display:block;width:100%;aspect-ratio:16/9;min-height:200px;border:0;margin-top:1rem}
 #alertas-config{margin-bottom:1rem;padding:.8rem 1rem;border:1px solid #404967;border-radius:14px;background:#1b233b}#alertas-config p{font-size:.85rem;margin:.35rem 0 0}#alertas-config .acoes{margin-top:0}#alertas-config button{font-size:.9rem;padding:.65rem .8rem}#notificacoes-status{color:#d5e0ff}
 </style></head><body>
@@ -19,7 +20,34 @@ const page = `<!doctype html>
 <label class="campo">Data do louvor<input name="data_louvor" type="date" min="0001-01-01" max="9999-12-31" required></label>
 <fieldset><legend>Como será tocado?</legend><label><input required type="radio" name="modo" value="vivo"> Ao vivo com os músicos</label><label><input required type="radio" name="modo" value="audio"> Áudio no computador</label></fieldset>
 <label class="campo">Tom e orientações (opcional)<textarea name="orientacoes" maxlength="1000" rows="3" placeholder="Ex.: Tom de Ré, começar pelo refrão"></textarea></label><br>
-<button class="primary" type="submit">Enviar para a mídia</button></form><hr><div class="barra"><h2>Meus envios</h2><button id="atualizar-envios" type="button">Atualizar status</button></div><p>Acompanhe quando a equipe de mídia confirmar o recebimento dos seus hinos.</p><div id="meus-envios" aria-live="polite"></div></div></section>
+<button class="primary" type="submit">Enviar para a mídia</button></form><hr><div class="barra"><h2>Meus envios</h2><button id="atualizar-envios" type="button">Atualizar status</button></div><p>Acompanhe quando a equipe de mídia confirmar o recebimento dos seus hinos.</p><div id="meus-envios" aria-live="polite"></div>
+<hr><section id="regente-presencas" class="presencas-area">
+<h2>📅 Ensaios e confirmações</h2><p>Marque ensaios e acompanhe quem confirmou presença nos ensaios e cultos.</p>
+<form id="form-ensaio">
+<label class="campo">Grupo do ensaio<select id="grupo-ensaio" required></select></label>
+<label class="campo">Dia do ensaio<input id="dia-ensaio" type="date" required></label>
+<label class="campo">Horário<input id="hora-ensaio" type="time" required></label>
+<label class="campo">Local (opcional)<input id="local-ensaio" maxlength="160" placeholder="Ex.: templo"></label>
+<label class="campo">Observações (opcional)<textarea id="obs-ensaio" maxlength="500" rows="2" placeholder="Ex.: trazer instrumento"></textarea></label>
+<button class="primary" type="submit">Marcar ensaio</button><p id="ensaio-aviso" role="status"></p>
+</form><p>Envie este link para os músicos: <a class="link-musicos" href="/musicos" target="_blank" rel="noopener">Abrir área dos músicos</a></p>
+<div id="lista-presencas-regente" aria-live="polite"></div>
+</section></div></section>
+<section class="card presencas-area" id="presencas-musicos" hidden>
+<div class="secao">Equipe de músicos</div>
+<h2>🎸 Minha presença</h2>
+<p>Cadastre seu nome uma vez neste celular e confirme se vai participar dos cultos e ensaios do seu grupo.</p>
+<div id="musico-entrada">
+<form id="form-musico">
+<label class="campo">Seu nome<input id="musico-nome" name="nome" maxlength="100" required placeholder="Ex.: João Silva" autocomplete="name"></label>
+<label class="campo">Instrumento ou função<input id="musico-instrumento" name="instrumento" maxlength="100" required placeholder="Ex.: violão, teclado, bateria ou voz"></label>
+<label class="campo">Grupos que você participa</label><div class="presencas-grupos" id="musico-grupos"></div>
+<button type="submit" class="primary">Salvar cadastro de músico</button><p id="musico-erro" role="status"></p>
+</form></div>
+<div id="musico-logado" hidden><div class="barra"><p id="musico-ola"></p><button id="alterar-musico" type="button">Alterar cadastro</button></div>
+<p class="presencas-apoio">Escolha uma opção para cada ensaio ou culto. Você pode alterar a resposta depois.</p>
+<div id="lista-compromissos-musico" aria-live="polite"></div>
+</div></section>
 <section class="card" id="midia" hidden><div class="secao" id="secao-lista">Equipe de mídia</div><div class="barra"><h2 id="titulo-lista">Hinos recebidos</h2><button id="atualizar">Atualizar</button></div><label class="campo">Data do culto<input id="filtro-data" type="date"></label><p><button id="todas-datas">Próximos cultos</button></p><div id="fila"></div></section>
 <p id="aviso" role="status"></p></main>
 <dialog id="player" aria-labelledby="player-titulo">
@@ -374,6 +402,7 @@ function abrir(aba, senha = null) {
   revisao++;
   const adm = aba === 'adm';
   el('regente').hidden = aba !== 'regente';
+  el('presencas-musicos').hidden = aba !== 'musicos';
   midia.hidden = aba === 'regente';
   el('secao-lista').textContent = adm ? 'Administração' : aba === 'musicos' ? 'Equipe de músicos' : 'Equipe de mídia';
   el('titulo-lista').textContent = adm ? 'Gerenciar hinos' : 'Hinos recebidos';
@@ -384,7 +413,8 @@ function abrir(aba, senha = null) {
   delete el('fila').dataset.atual;
   aviso.textContent = '';
   if (!midia.hidden) carregar();
-  else if (perfilAtual) mostrarEnvios();
+  if (aba === 'musicos') carregarCompromissosMusicos();
+  else if (perfilAtual) {mostrarEnvios();carregarPresencasRegente();}
 }
 el('aba-regente').onclick = () => abrir('regente');
 el('filtro-data').onchange = () => carregar();
@@ -419,6 +449,138 @@ form.onsubmit = async event => {
     botao.disabled = false;
   }
 };
+
+let musicoPerfilAtual = null;
+function preencherGruposMusico() {
+  const area = el('musico-grupos');
+  const selecionados = musicoPerfilAtual?.grupos || [];
+  const nomes = [...new Set([...todosGrupos,...selecionados])].sort((a,b)=>a.localeCompare(b,'pt-BR'));
+  area.replaceChildren();
+  if (!nomes.length) add(area,'p','Nenhum grupo cadastrado no momento.');
+  for (const nome of nomes) {
+    const label = add(area,'label','');
+    const input = document.createElement('input');
+    input.type = 'checkbox'; input.name = 'grupos'; input.value = nome; input.checked=selecionados.includes(nome);
+    label.append(input,document.createTextNode(' '+nome));
+  }
+}
+function dataCurta(texto) {return texto ? texto.split('-').reverse().join('/') : '';}
+function desenharCompromissosMusico(dados) {
+  const area = el('lista-compromissos-musico'); area.replaceChildren();
+  const compromissos = dados.compromissos || [];
+  if (!compromissos.length) {add(area,'p','Nenhum culto ao vivo ou ensaio marcado para os seus grupos.','vazio');return;}
+  for (const evento of compromissos) {
+    const card=add(area,'article','');
+    add(card,'div',evento.tipo === 'ensaio' ? '🎼 Ensaio' : '⛪ Culto','secao');
+    add(card,'h3',evento.grupo);
+    add(card,'p',dataCurta(evento.data)+(evento.horario ? ' às '+evento.horario : ''),'grupo');
+    if (evento.local) add(card,'p','Local: '+evento.local,'grupo');
+    if (evento.observacoes) add(card,'p',evento.observacoes,'presencas-detalhes');
+    const status=add(card,'p',evento.confirmacao === 'sim' ? '✅ Você confirmou presença.' : evento.confirmacao === 'nao' ? '❌ Você avisou que não poderá participar.' : 'Sua resposta: aguardando.','presencas-status');
+    const acoes=add(card,'div','','presencas-selecoes');
+    for (const [valor,legenda] of [['sim','✅ Vou participar'],['nao','❌ Não vou poder']]) {
+      const botao=add(acoes,'button',legenda);
+      botao.type='button';botao.setAttribute('aria-pressed',evento.confirmacao===valor);
+      botao.onclick=async()=>{
+        for(const item of acoes.querySelectorAll('button'))item.disabled=true;
+        try {
+          await api('/api/musico/confirmar',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({tipo:evento.tipo,referencia:evento.referencia,status:valor})});
+          evento.confirmacao=valor;
+          status.textContent=valor==='sim'?'✅ Você confirmou presença.':'❌ Você avisou que não poderá participar.';
+          for(const item of acoes.querySelectorAll('button'))item.setAttribute('aria-pressed',item===botao);
+        }catch(erro){status.textContent=erro.message;}
+        finally{for(const item of acoes.querySelectorAll('button'))item.disabled=false;}
+      };
+    }
+  }
+}
+async function carregarCompromissosMusicos() {
+  if (abaAtual !== 'musicos') return;
+  const area = el('lista-compromissos-musico');
+  try {
+    const perfil = await api('/api/musico/perfil');
+    musicoPerfilAtual = perfil;
+    el('musico-entrada').hidden=!!perfil;
+    el('musico-logado').hidden=!perfil;
+    preencherGruposMusico();
+    if (!perfil) return;
+    el('musico-ola').textContent=perfil.nome+' — '+perfil.instrumento;
+    const dados = await api('/api/musico/compromissos');
+    if (abaAtual==='musicos') desenharCompromissosMusico(dados);
+  } catch(erro) {area.replaceChildren();add(area,'p',erro.message,'vazio');}
+}
+el('alterar-musico').onclick=()=>{
+  el('musico-entrada').hidden=false;el('musico-logado').hidden=true;
+  el('form-musico').elements.nome.value=musicoPerfilAtual?.nome||'';
+  el('form-musico').elements.instrumento.value=musicoPerfilAtual?.instrumento||'';
+  preencherGruposMusico();
+};
+el('form-musico').onsubmit=async event=>{
+  event.preventDefault();
+  const formulario=el('form-musico');
+  const botoes=formulario.querySelectorAll('button');
+  const dados=new FormData(formulario);
+  if (!dados.getAll('grupos').length) {el('musico-erro').textContent='Selecione pelo menos um grupo.';return;}
+  for(const botao of botoes)botao.disabled=true;
+  el('musico-erro').textContent='';
+  try {
+    musicoPerfilAtual=await api('/api/musico/perfil',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+      nome:dados.get('nome'),instrumento:dados.get('instrumento'),grupos:dados.getAll('grupos')
+    })});
+    await carregarCompromissosMusicos();
+  }catch(erro){el('musico-erro').textContent=erro.message;}
+  finally{for(const botao of botoes)botao.disabled=false;}
+};
+function presencasTexto(lista,status) {
+  const nomes=lista.filter(item=>item.status===status).map(item=>item.nome+(item.instrumento?' ('+item.instrumento+')':''));
+  return nomes.length ? nomes.join(', ') : 'Ninguém';
+}
+async function carregarPresencasRegente() {
+  if(!perfilAtual || el('regente').hidden) return;
+  const area=el('lista-presencas-regente');
+  try {
+    const eventos=await api('/api/regente/compromissos');
+    if(el('regente').hidden)return;
+    area.replaceChildren();
+    if(!eventos.length){add(area,'p','Os próximos cultos e ensaios aparecerão aqui.','vazio');return;}
+    for (const evento of eventos) {
+      const card=add(area,'article','');
+      add(card,'div',evento.tipo==='ensaio'?'🎼 Ensaio':'⛪ Culto','secao');
+      add(card,'h3',evento.grupo+' — '+dataCurta(evento.data)+(evento.horario?' às '+evento.horario:''));
+      if(evento.local)add(card,'p','Local: '+evento.local,'grupo');
+      if(evento.observacoes)add(card,'p',evento.observacoes,'presencas-detalhes');
+      const confirmacoes=evento.confirmacoes||[];
+      add(card,'p','✅ Confirmados: '+presencasTexto(confirmacoes,'sim'),'presencas-resumo');
+      add(card,'p','❌ Não poderão: '+presencasTexto(confirmacoes,'nao'),'presencas-resumo');
+      add(card,'p','⏳ Sem resposta: '+presencasTexto(confirmacoes,null),'presencas-resumo');
+      if(evento.tipo==='ensaio'&&evento.pode_excluir){
+        const botao=add(card,'button','Excluir ensaio','excluir');
+        botao.onclick=async()=>{
+          if(!confirm('Excluir esse ensaio?'))return;
+          botao.disabled=true;
+          try{await api('/api/ensaios/'+evento.referencia,{method:'DELETE'});await carregarPresencasRegente();}
+          catch(erro){el('ensaio-aviso').textContent=erro.message;botao.disabled=false;}
+        };
+      }
+    }
+  }catch(erro){area.replaceChildren();add(area,'p',erro.message,'vazio');}
+}
+el('form-ensaio').onsubmit=async event=>{
+  event.preventDefault();
+  const formulario=el('form-ensaio'),botao=formulario.querySelector('button[type=submit]');
+  botao.disabled=true;el('ensaio-aviso').textContent='';
+  try{
+    await api('/api/ensaios',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+      grupo:el('grupo-ensaio').value,data:el('dia-ensaio').value,horario:el('hora-ensaio').value,
+      local:el('local-ensaio').value,observacoes:el('obs-ensaio').value
+    })});
+    formulario.reset();el('ensaio-aviso').textContent='Ensaio marcado! Os músicos verão a data na área deles.';
+    preencherGrupoHino();await carregarPresencasRegente();
+  }catch(erro){el('ensaio-aviso').textContent=erro.message;}
+  finally{botao.disabled=false;}
+};
+setInterval(()=>{if(abaAtual==='musicos'&&!document.hidden&&musicoPerfilAtual)carregarCompromissosMusicos();},45000);
+setInterval(()=>{if(abaAtual==='regente'&&!document.hidden&&perfilAtual)carregarPresencasRegente();},45000);
 const gruposPadrao = ['Jovens','Crianças','Adolescentes','Mocidade'];
 let todosGrupos = [...gruposPadrao];
 let perfilAtual = null;
@@ -431,6 +593,10 @@ function preencherGrupoHino(selecionado = '') {
   select.value = grupos.includes(selecionado) ? selecionado : grupos.length === 1 ? grupos[0] : '';
   el('novo-grupo-campo').hidden = true;
   el('novo-grupo').required = false;
+  const ensaioSelect = el('grupo-ensaio');
+  ensaioSelect.replaceChildren();
+  const escolha = add(ensaioSelect,'option','Escolha um grupo'); escolha.value = '';
+  for (const grupo of grupos) {const opcao = add(ensaioSelect,'option',grupo); opcao.value=grupo;}
 }
 function desenharGruposCadastro(selecionados = perfilAtual?.grupos || []) {
   const campo = el('grupos-perfil'); campo.replaceChildren();
@@ -447,6 +613,7 @@ async function carregarGrupos(selecionado = '') {
   catch {el('conta-erro').textContent = 'Não foi possível carregar os grupos. Você pode adicionar o nome abaixo.';}
   preencherGrupoHino(selecionado);
   desenharGruposCadastro();
+  preencherGruposMusico();
 }
 el('adicionar-grupo-perfil').onclick = () => {
   const input = el('novo-grupo-perfil'); const nome = input.value.trim();
@@ -464,7 +631,7 @@ function exibirPerfil() {
   el('conta-nome').textContent = perfilAtual ? 'Regente: ' + perfilAtual.nome : '';
   el('form-conta').elements.nome.value = perfilAtual?.nome || '';
   preencherGrupoHino(); desenharGruposCadastro();
-  if (perfilAtual) mostrarEnvios();
+  if (perfilAtual) {mostrarEnvios();carregarPresencasRegente();}
 }
 el('editar-perfil').onclick = () => {
   el('conta-entrada').hidden = false; el('conta-conteudo').hidden = true;
@@ -519,6 +686,7 @@ async function iniciarPerfil() {
   perfilAtual = await api('/api/perfil'); exibirPerfil();
 }
 iniciarPerfil().catch(erro => el('conta-erro').textContent = erro.message);
+if (location.pathname === '/musicos') abrir('musicos');
 </script></body></html>`;
 
 function youtubeVideo(value) {

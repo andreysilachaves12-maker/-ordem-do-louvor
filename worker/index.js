@@ -907,10 +907,155 @@ async function pushAvisar(env,papel,perfilId='') {
   }
 }
 
+
+const COOKIE_MUSICO = '__Host-louvor_musico';
+async function prepararPresencas(env) {
+  // Tabelas novas e independentes. Não modifica nem apaga os hinos já cadastrados.
+  await env.DB.prepare("CREATE TABLE IF NOT EXISTS musicos (id TEXT PRIMARY KEY, nome TEXT NOT NULL, instrumento TEXT NOT NULL, grupos TEXT NOT NULL)").run();
+  await env.DB.prepare("CREATE TABLE IF NOT EXISTS musico_sessoes (token_hash TEXT PRIMARY KEY, musico_id TEXT NOT NULL, expira INTEGER NOT NULL)").run();
+  await env.DB.prepare("CREATE TABLE IF NOT EXISTS ensaios (id INTEGER PRIMARY KEY AUTOINCREMENT, regente_id TEXT NOT NULL, grupo TEXT NOT NULL, data TEXT NOT NULL, horario TEXT NOT NULL, local TEXT NOT NULL DEFAULT '', observacoes TEXT NOT NULL DEFAULT '')").run();
+  await env.DB.prepare("CREATE TABLE IF NOT EXISTS presencas_musicos (musico_id TEXT NOT NULL, tipo TEXT NOT NULL CHECK(tipo IN ('ensaio','culto')), referencia TEXT NOT NULL, status TEXT NOT NULL CHECK(status IN ('sim','nao')), atualizado INTEGER NOT NULL, PRIMARY KEY(musico_id,tipo,referencia))").run();
+}
+function tokenMusico(request) {
+  const item = (request.headers.get('Cookie') || '').split(';').map(x=>x.trim()).find(x=>x.startsWith(COOKIE_MUSICO+'='));
+  const token = item?.slice(COOKIE_MUSICO.length+1);
+  return token && /^[a-f0-9]{64}$/.test(token) ? token : null;
+}
+async function obterMusico(request,env) {
+  const token=tokenMusico(request);
+  if(!token)return null;
+  await prepararPresencas(env);
+  const registro=await env.DB.prepare('SELECT m.id,m.nome,m.instrumento,m.grupos FROM musicos m JOIN musico_sessoes s ON s.musico_id=m.id WHERE s.token_hash = ? AND s.expira > ?')
+    .bind(await hashToken(token),Date.now()).first();
+  return registro ? {...registro,grupos:JSON.parse(registro.grupos)} : null;
+}
+async function rotaMusicoPerfil(request,env) {
+  await prepararPresencas(env);
+  const atual=await obterMusico(request,env);
+  if(request.method==='GET')return json(atual ? {nome:atual.nome,instrumento:atual.instrumento,grupos:atual.grupos}:null);
+  if(request.method!=='POST')return json({erro:'Método não permitido.'},405);
+  const dados=await request.json().catch(()=>null);
+  const nome=typeof dados?.nome==='string'?dados.nome.trim():'';
+  const instrumento=typeof dados?.instrumento==='string'?dados.instrumento.trim():'';
+  const grupos=Array.isArray(dados?.grupos)?[...new Set(dados.grupos.filter(x=>typeof x==='string').map(x=>x.trim()))]:[];
+  if(!nome||nome.length>100||!instrumento||instrumento.length>100||grupos.length<1||grupos.length>30||grupos.some(x=>!x||x.length>100))
+    return json({erro:'Informe seu nome, instrumento e pelo menos um grupo.'},400);
+  const id=atual?.id||crypto.randomUUID();
+  const token=tokenMusico(request)||aleatorio();
+  await env.DB.batch([
+    env.DB.prepare('INSERT INTO musicos (id,nome,instrumento,grupos) VALUES (?,?,?,?) ON CONFLICT(id) DO UPDATE SET nome=excluded.nome,instrumento=excluded.instrumento,grupos=excluded.grupos').bind(id,nome,instrumento,JSON.stringify(grupos)),
+    env.DB.prepare('INSERT INTO musico_sessoes (token_hash,musico_id,expira) VALUES (?,?,?) ON CONFLICT(token_hash) DO UPDATE SET musico_id=excluded.musico_id,expira=excluded.expira').bind(await hashToken(token),id,Date.now()+TEMPO_SESSAO*1000)
+  ]);
+  const resposta=json({nome,instrumento,grupos});
+  resposta.headers.set('Set-Cookie',COOKIE_MUSICO+'='+token+'; Path=/; Secure; HttpOnly; SameSite=Strict; Max-Age='+TEMPO_SESSAO);
+  return resposta;
+}
+async function compromissosFuturos(env) {
+  await prepararPresencas(env);
+  const hojeLocal=hoje();
+  const [ensaios, cultos]=await Promise.all([
+    env.DB.prepare('SELECT id,grupo,data,horario,local,observacoes,regente_id FROM ensaios WHERE data >= ? ORDER BY data,horario,id').bind(hojeLocal).all(),
+    env.DB.prepare("SELECT DISTINCT grupo,data_louvor FROM hinos WHERE data_louvor >= ? AND modo = 'vivo' ORDER BY data_louvor,grupo").bind(hojeLocal).all()
+  ]);
+  const eventos=[
+    ...ensaios.results.map(e=>({tipo:'ensaio',referencia:String(e.id),grupo:e.grupo,data:e.data,horario:e.horario,local:e.local,observacoes:e.observacoes,regente_id:e.regente_id})),
+    ...cultos.results.map(e=>({tipo:'culto',referencia:e.data_louvor+'|'+e.grupo,grupo:e.grupo,data:e.data_louvor,horario:'',local:'',observacoes:''}))
+  ];
+  eventos.sort((a,b)=>a.data.localeCompare(b.data)||a.horario.localeCompare(b.horario)||a.grupo.localeCompare(b.grupo));
+  return eventos;
+}
+async function rotaCompromissosMusico(request,env) {
+  const musico=await obterMusico(request,env);
+  if(!musico)return json({erro:'Cadastre seu nome para confirmar presença.'},401);
+  const [eventos,registros]=await Promise.all([
+    compromissosFuturos(env),
+    env.DB.prepare('SELECT tipo,referencia,status FROM presencas_musicos WHERE musico_id = ?').bind(musico.id).all()
+  ]);
+  const status=new Map(registros.results.map(r=>[r.tipo+'|'+r.referencia,r.status]));
+  return json({compromissos:eventos.filter(e=>musico.grupos.includes(e.grupo)).map(e=>({
+    tipo:e.tipo,referencia:e.referencia,grupo:e.grupo,data:e.data,horario:e.horario,local:e.local,observacoes:e.observacoes,
+    confirmacao:status.get(e.tipo+'|'+e.referencia)||null
+  }))});
+}
+async function rotaConfirmarMusico(request,env,ctx) {
+  const musico=await obterMusico(request,env);
+  if(!musico)return json({erro:'Cadastre seu nome para confirmar presença.'},401);
+  const dados=await request.json().catch(()=>null);
+  if(!['ensaio','culto'].includes(dados?.tipo)||!['sim','nao'].includes(dados?.status)||typeof dados?.referencia!=='string'||dados.referencia.length>160)
+    return json({erro:'Confirmação inválida.'},400);
+  let grupo, regentes=[];
+  if(dados.tipo==='ensaio') {
+    if(!/^[1-9][0-9]*$/.test(dados.referencia)||!Number.isSafeInteger(Number(dados.referencia)))return json({erro:'Ensaio inválido.'},400);
+    const ensaio=await env.DB.prepare('SELECT grupo,data,regente_id FROM ensaios WHERE id = ?').bind(Number(dados.referencia)).first();
+    if(!ensaio||ensaio.data<hoje())return json({erro:'Esse ensaio não está mais disponível.'},404);
+    grupo=ensaio.grupo;regentes=[ensaio.regente_id];
+  } else {
+    const separador=dados.referencia.indexOf('|');
+    const data=separador>0?dados.referencia.slice(0,separador):'';
+    grupo=separador>0?dados.referencia.slice(separador+1):'';
+    if(!dataValida(data)||data<hoje()||!grupo||grupo.length>100)return json({erro:'Culto inválido.'},400);
+    const {results}=await env.DB.prepare("SELECT DISTINCT perfil_id FROM hinos WHERE grupo = ? AND data_louvor = ? AND modo = 'vivo'").bind(grupo,data).all();
+    if(!results.length)return json({erro:'Nenhum louvor ao vivo encontrado para esse culto.'},404);
+    regentes=results.map(r=>r.perfil_id).filter(Boolean);
+  }
+  if(!musico.grupos.includes(grupo))return json({erro:'Esse evento não pertence aos seus grupos.'},403);
+  const anterior=await env.DB.prepare('SELECT status FROM presencas_musicos WHERE musico_id = ? AND tipo = ? AND referencia = ?').bind(musico.id,dados.tipo,dados.referencia).first();
+  await env.DB.prepare('INSERT INTO presencas_musicos (musico_id,tipo,referencia,status,atualizado) VALUES (?,?,?,?,?) ON CONFLICT(musico_id,tipo,referencia) DO UPDATE SET status=excluded.status,atualizado=excluded.atualizado')
+    .bind(musico.id,dados.tipo,dados.referencia,dados.status,Date.now()).run();
+  if(anterior?.status!==dados.status && ctx?.waitUntil) {
+    ctx.waitUntil(Promise.allSettled([...new Set(regentes)].map(regente=>pushAvisar(env,'regente',regente))));
+  }
+  return json({ok:true});
+}
+async function rotaEnsaios(request,env,ctx) {
+  const regente=await obterConta(request,env);
+  if(!regente)return json({erro:'Cadastre-se como regente antes de marcar ensaios.'},401);
+  await prepararPresencas(env);
+  const dados=await request.json().catch(()=>null);
+  const grupo=typeof dados?.grupo==='string'?dados.grupo.trim():'';
+  const data=dados?.data, horario=dados?.horario;
+  const local=typeof dados?.local==='string'?dados.local.trim():'';
+  const observacoes=typeof dados?.observacoes==='string'?dados.observacoes.trim():'';
+  if(!regente.grupos.includes(grupo)||!dataValida(data)||data<hoje()||
+     typeof horario!=='string'||!/^([01][0-9]|2[0-3]):[0-5][0-9]$/.test(horario)||
+     local.length>160||observacoes.length>500)
+    return json({erro:'Confira o grupo, a data e o horário do ensaio.'},400);
+  const resultado=await env.DB.prepare('INSERT INTO ensaios (regente_id,grupo,data,horario,local,observacoes) VALUES (?,?,?,?,?,?)')
+    .bind(regente.id,grupo,data,horario,local,observacoes).run();
+  if(ctx?.waitUntil)ctx.waitUntil(pushAvisar(env,'musicos'));
+  return json({ok:true,id:resultado.meta.last_row_id},201);
+}
+async function rotaExcluirEnsaio(request,env,id) {
+  const regente=await obterConta(request,env);
+  if(!regente)return json({erro:'Cadastre-se como regente para excluir seus ensaios.'},401);
+  await prepararPresencas(env);
+  const resultado=await env.DB.prepare('DELETE FROM ensaios WHERE id = ? AND regente_id = ?').bind(id,regente.id).run();
+  if(!resultado.meta.changes)return json({erro:'Ensaio não encontrado neste cadastro.'},404);
+  await env.DB.prepare("DELETE FROM presencas_musicos WHERE tipo = 'ensaio' AND referencia = ?").bind(String(id)).run();
+  return json({ok:true});
+}
+async function rotaCompromissosRegente(request,env) {
+  const regente=await obterConta(request,env);
+  if(!regente)return json({erro:'Cadastre-se como regente para ver confirmações.'},401);
+  const [eventos,musicos,confirmacoes]=await Promise.all([
+    compromissosFuturos(env),
+    env.DB.prepare('SELECT id,nome,instrumento,grupos FROM musicos').all(),
+    env.DB.prepare('SELECT musico_id,tipo,referencia,status FROM presencas_musicos').all()
+  ]);
+  const estados=new Map(confirmacoes.results.map(r=>[r.musico_id+'|'+r.tipo+'|'+r.referencia,r.status]));
+  return json(eventos.filter(e=>regente.grupos.includes(e.grupo)).map(e=>({
+    tipo:e.tipo,referencia:e.referencia,grupo:e.grupo,data:e.data,horario:e.horario,local:e.local,observacoes:e.observacoes,
+    pode_excluir:e.tipo==='ensaio'&&e.regente_id===regente.id,
+    confirmacoes:musicos.results.filter(m=>{
+      try{return JSON.parse(m.grupos).includes(e.grupo);}catch{return false;}
+    }).map(m=>({nome:m.nome,instrumento:m.instrumento,status:estados.get(m.id+'|'+e.tipo+'|'+e.referencia)||null}))
+  })));
+}
+
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
-    if (request.method === 'GET' && url.pathname === '/') {
+    if (request.method === 'GET' && (url.pathname === '/' || url.pathname === '/musicos')) {
       return new Response(page,{headers:{'Content-Type':'text/html; charset=utf-8','Referrer-Policy':'strict-origin-when-cross-origin'}});
     }
     if (request.method === 'GET' && url.pathname === '/sw.js')
@@ -932,6 +1077,16 @@ export default {
       if (url.pathname === '/api/push/inscrever') {
         if (request.method === 'POST') return await pushInscrever(request,env);
         if (request.method === 'DELETE') return await pushDesinscrever(request,env);
+      }
+      if (url.pathname === '/api/musico/perfil') return await rotaMusicoPerfil(request,env);
+      if (request.method === 'GET' && url.pathname === '/api/musico/compromissos') return await rotaCompromissosMusico(request,env);
+      if (request.method === 'POST' && url.pathname === '/api/musico/confirmar') return await rotaConfirmarMusico(request,env,ctx);
+      if (request.method === 'GET' && url.pathname === '/api/regente/compromissos') return await rotaCompromissosRegente(request,env);
+      if (request.method === 'POST' && url.pathname === '/api/ensaios') return await rotaEnsaios(request,env,ctx);
+      if (request.method === 'DELETE' && /^\/api\/ensaios\/[1-9][0-9]*$/.test(url.pathname)) {
+        const id=Number(url.pathname.split('/').pop());
+        if(!Number.isSafeInteger(id))return json({erro:'Ensaio inválido.'},400);
+        return await rotaExcluirEnsaio(request,env,id);
       }
       if (url.pathname === '/api/perfil') return await rotaPerfil(request,env);
       if (request.method === 'GET' && url.pathname === '/api/youtube') {

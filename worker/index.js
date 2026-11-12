@@ -4,6 +4,7 @@ const page = `<!doctype html>
 :root{color-scheme:dark;font:16px system-ui,sans-serif;background:#111729;color:#f7f4ec}*{box-sizing:border-box}[hidden]{display:none!important}body{margin:0}header{background:radial-gradient(ellipse at right,#313864,#191f38 66%);border-bottom:1px solid #424966;padding:3rem 1.2rem 5rem}header>div,main{max-width:700px;margin:auto}.marca,.secao{color:#ffce82;font-size:.75rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase}h1{font-size:clamp(2.6rem,9vw,4rem);line-height:1;margin:.55rem 0;font-family:Georgia,serif;font-weight:normal}p{color:#c4cae2;line-height:1.5}header p{margin:.8rem 0 0}main{position:relative;margin:-2.25rem auto 3rem;padding:0 1rem}.card,nav,article{border:1px solid #404967;background:#1b233b;border-radius:18px;padding:1.25rem}nav{display:flex;padding:.35rem;gap:.35rem;margin-bottom:1rem}nav button{flex:1;border:0;padding:.75rem .35rem;min-width:0;font-size:.9rem}textarea{resize:vertical}.orientacoes{white-space:pre-wrap;overflow-wrap:anywhere}button,a{font:inherit}button,.acoes .cifra{cursor:pointer;padding:.8rem 1rem;border-radius:10px;border:1px solid #606c91;background:#293453;color:#fff;font-weight:700}button[aria-pressed=true],.primary{background:#ffce82;color:#221b15;border-color:#ffce82}button:disabled{opacity:.65;cursor:wait}h2{margin:.35rem 0 .5rem}label,legend{font-weight:700}label.campo{display:block;margin-top:1rem}select,textarea,input:not([type=radio]):not([type=checkbox]){display:block;width:100%;margin-top:.4rem;background:#141b30;color:#fff;border:1px solid #657094;border-radius:9px;padding:.78rem;font:inherit}fieldset{margin:1.15rem 0;padding:.7rem;border:1px solid #606c91;border-radius:10px;display:flex;flex-wrap:wrap;gap:1rem}fieldset label{padding:.35rem;cursor:pointer}input[type=radio]{accent-color:#ffce82}.primary{width:100%}#aviso{min-height:1.5em;color:#ffda9e}article{margin-top:.75rem;padding:1rem;background:#151c31}article h3{margin:.35rem 0;font-size:1.3rem;overflow-wrap:anywhere}.grupo{margin:.35rem 0;color:#c4cae2;overflow-wrap:anywhere}.acoes{display:flex;align-items:center;flex-wrap:wrap;gap:.75rem;margin-top:.75rem}.acoes a{color:#ffda9e}.acoes .cifra{text-decoration:none}.barra{display:flex;align-items:center;justify-content:space-between;gap:.5rem}.status{color:#b8e6ca;font-weight:700}.status-pendente{color:#ffda9e;font-weight:700}.vazio{padding:1rem;border:1px dashed #657094;border-radius:12px}:focus-visible{outline:3px solid #ffce82;outline-offset:3px}
 .acoes .excluir{background:transparent;color:#ffb8b8;border-color:#915d6e}#youtube-resultados article{display:flex;gap:.85rem;align-items:flex-start}#youtube-resultados img{width:120px;max-width:34%;aspect-ratio:16/9;object-fit:cover;border-radius:8px}#youtube-resultados .resultado-conteudo{flex:1;min-width:0}#youtube-resultados .resultado-conteudo p{margin:.3rem 0 .6rem}#youtube-resultados button{padding:.55rem .75rem}
 #plano-b-musicos{margin-top:1.25rem;padding:.8rem 1rem;border:1px solid #606c91;border-radius:14px;background:#151c31}#plano-b-musicos summary{cursor:pointer;color:#ffce82;font-weight:800;line-height:1.5;padding:.3rem 0}#plano-b-musicos[open] summary{margin-bottom:.5rem}#plano-b-musicos article{background:#1b233b}
+.presencas-area{margin:1rem 0}.presencas-area article{padding:1rem}.presencas-area h3{margin:.35rem 0}.presencas-status{font-weight:700;color:#ffce82}.presencas-selecoes{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.75rem}.presencas-selecoes button{flex:1;min-width:120px}.presencas-selecoes button[aria-pressed=true]{background:#ffce82;color:#221b15}.presencas-apoio{font-size:.9rem;color:#c4cae2}.presencas-detalhes{white-space:pre-wrap;overflow-wrap:anywhere}.presencas-grupos{display:flex;flex-wrap:wrap;gap:.65rem;padding:.65rem;border:1px solid #606c91;border-radius:10px;margin-top:.6rem}.presencas-grupos label{font-weight:normal}.presencas-resumo{margin:.3rem 0}.link-musicos{color:#ffce82;overflow-wrap:anywhere}
 #player,#confirmar-exclusao,#acesso,#busca-youtube-dialog{width:min(92vw,680px);max-height:90dvh;border:1px solid #606c91;border-radius:18px;background:#1b233b;color:#f7f4ec;padding:1rem}#player::backdrop,#confirmar-exclusao::backdrop,#acesso::backdrop,#busca-youtube-dialog::backdrop{background:#080c18cc}#player-video iframe{display:block;width:100%;aspect-ratio:16/9;min-height:200px;border:0;margin-top:1rem}
 #alertas-config{margin-bottom:1rem;padding:.8rem 1rem;border:1px solid #404967;border-radius:14px;background:#1b233b}#alertas-config p{font-size:.85rem;margin:.35rem 0 0}#alertas-config .acoes{margin-top:0}#alertas-config button{font-size:.9rem;padding:.65rem .8rem}#notificacoes-status{color:#d5e0ff}
 </style></head><body>
@@ -19,7 +20,34 @@ const page = `<!doctype html>
 <label class="campo">Data do louvor<input name="data_louvor" type="date" min="0001-01-01" max="9999-12-31" required></label>
 <fieldset><legend>Como será tocado?</legend><label><input required type="radio" name="modo" value="vivo"> Ao vivo com os músicos</label><label><input required type="radio" name="modo" value="audio"> Áudio no computador</label></fieldset>
 <label class="campo">Tom e orientações (opcional)<textarea name="orientacoes" maxlength="1000" rows="3" placeholder="Ex.: Tom de Ré, começar pelo refrão"></textarea></label><br>
-<button class="primary" type="submit">Enviar para a mídia</button></form><hr><div class="barra"><h2>Meus envios</h2><button id="atualizar-envios" type="button">Atualizar status</button></div><p>Acompanhe quando a equipe de mídia confirmar o recebimento dos seus hinos.</p><div id="meus-envios" aria-live="polite"></div></div></section>
+<button class="primary" type="submit">Enviar para a mídia</button></form><hr><div class="barra"><h2>Meus envios</h2><button id="atualizar-envios" type="button">Atualizar status</button></div><p>Acompanhe quando a equipe de mídia confirmar o recebimento dos seus hinos.</p><div id="meus-envios" aria-live="polite"></div>
+<hr><section id="regente-presencas" class="presencas-area">
+<h2>📅 Ensaios e confirmações</h2><p>Marque ensaios e acompanhe quem confirmou presença nos ensaios e cultos.</p>
+<form id="form-ensaio">
+<label class="campo">Grupo do ensaio<select id="grupo-ensaio" required></select></label>
+<label class="campo">Dia do ensaio<input id="dia-ensaio" type="date" required></label>
+<label class="campo">Horário<input id="hora-ensaio" type="time" required></label>
+<label class="campo">Local (opcional)<input id="local-ensaio" maxlength="160" placeholder="Ex.: templo"></label>
+<label class="campo">Observações (opcional)<textarea id="obs-ensaio" maxlength="500" rows="2" placeholder="Ex.: trazer instrumento"></textarea></label>
+<button class="primary" type="submit">Marcar ensaio</button><p id="ensaio-aviso" role="status"></p>
+</form><p>Envie este link para os músicos: <a class="link-musicos" href="/musicos" target="_blank" rel="noopener">Abrir área dos músicos</a></p>
+<div id="lista-presencas-regente" aria-live="polite"></div>
+</section></div></section>
+<section class="card presencas-area" id="presencas-musicos" hidden>
+<div class="secao">Equipe de músicos</div>
+<h2>🎸 Minha presença</h2>
+<p>Cadastre seu nome uma vez neste celular e confirme se vai participar dos cultos e ensaios do seu grupo.</p>
+<div id="musico-entrada">
+<form id="form-musico">
+<label class="campo">Seu nome<input id="musico-nome" name="nome" maxlength="100" required placeholder="Ex.: João Silva" autocomplete="name"></label>
+<label class="campo">Instrumento ou função<input id="musico-instrumento" name="instrumento" maxlength="100" required placeholder="Ex.: violão, teclado, bateria ou voz"></label>
+<label class="campo">Grupos que você participa</label><div class="presencas-grupos" id="musico-grupos"></div>
+<button type="submit" class="primary">Salvar cadastro de músico</button><p id="musico-erro" role="status"></p>
+</form></div>
+<div id="musico-logado" hidden><div class="barra"><p id="musico-ola"></p><button id="alterar-musico" type="button">Alterar cadastro</button></div>
+<p class="presencas-apoio">Escolha uma opção para cada ensaio ou culto. Você pode alterar a resposta depois.</p>
+<div id="lista-compromissos-musico" aria-live="polite"></div>
+</div></section>
 <section class="card" id="midia" hidden><div class="secao" id="secao-lista">Equipe de mídia</div><div class="barra"><h2 id="titulo-lista">Hinos recebidos</h2><button id="atualizar">Atualizar</button></div><label class="campo">Data do culto<input id="filtro-data" type="date"></label><p><button id="todas-datas">Próximos cultos</button></p><div id="fila"></div></section>
 <p id="aviso" role="status"></p></main>
 <dialog id="player" aria-labelledby="player-titulo">
@@ -374,6 +402,7 @@ function abrir(aba, senha = null) {
   revisao++;
   const adm = aba === 'adm';
   el('regente').hidden = aba !== 'regente';
+  el('presencas-musicos').hidden = aba !== 'musicos';
   midia.hidden = aba === 'regente';
   el('secao-lista').textContent = adm ? 'Administração' : aba === 'musicos' ? 'Equipe de músicos' : 'Equipe de mídia';
   el('titulo-lista').textContent = adm ? 'Gerenciar hinos' : 'Hinos recebidos';
@@ -384,7 +413,8 @@ function abrir(aba, senha = null) {
   delete el('fila').dataset.atual;
   aviso.textContent = '';
   if (!midia.hidden) carregar();
-  else if (perfilAtual) mostrarEnvios();
+  if (aba === 'musicos') carregarCompromissosMusicos();
+  else if (perfilAtual) {mostrarEnvios();carregarPresencasRegente();}
 }
 el('aba-regente').onclick = () => abrir('regente');
 el('filtro-data').onchange = () => carregar();
@@ -419,6 +449,141 @@ form.onsubmit = async event => {
     botao.disabled = false;
   }
 };
+
+let musicoPerfilAtual = null;
+let editandoMusico = false;
+function preencherGruposMusico() {
+  const area = el('musico-grupos');
+  const selecionados = musicoPerfilAtual?.grupos || [];
+  const nomes = [...new Set([...todosGrupos,...selecionados])].sort((a,b)=>a.localeCompare(b,'pt-BR'));
+  area.replaceChildren();
+  if (!nomes.length) add(area,'p','Nenhum grupo cadastrado no momento.');
+  for (const nome of nomes) {
+    const label = add(area,'label','');
+    const input = document.createElement('input');
+    input.type = 'checkbox'; input.name = 'grupos'; input.value = nome; input.checked=selecionados.includes(nome);
+    label.append(input,document.createTextNode(' '+nome));
+  }
+}
+function dataCurta(texto) {return texto ? texto.split('-').reverse().join('/') : '';}
+function desenharCompromissosMusico(dados) {
+  const area = el('lista-compromissos-musico'); area.replaceChildren();
+  const compromissos = dados.compromissos || [];
+  if (!compromissos.length) {add(area,'p','Nenhum culto ao vivo ou ensaio marcado para os seus grupos.','vazio');return;}
+  for (const evento of compromissos) {
+    const card=add(area,'article','');
+    add(card,'div',evento.tipo === 'ensaio' ? '🎼 Ensaio' : '⛪ Culto','secao');
+    add(card,'h3',evento.grupo);
+    add(card,'p',dataCurta(evento.data)+(evento.horario ? ' às '+evento.horario : ''),'grupo');
+    if (evento.local) add(card,'p','Local: '+evento.local,'grupo');
+    if (evento.observacoes) add(card,'p',evento.observacoes,'presencas-detalhes');
+    const status=add(card,'p',evento.confirmacao === 'sim' ? '✅ Você confirmou presença.' : evento.confirmacao === 'nao' ? '❌ Você avisou que não poderá participar.' : 'Sua resposta: aguardando.','presencas-status');
+    const acoes=add(card,'div','','presencas-selecoes');
+    for (const [valor,legenda] of [['sim','✅ Vou participar'],['nao','❌ Não vou poder']]) {
+      const botao=add(acoes,'button',legenda);
+      botao.type='button';botao.setAttribute('aria-pressed',evento.confirmacao===valor);
+      botao.onclick=async()=>{
+        for(const item of acoes.querySelectorAll('button'))item.disabled=true;
+        try {
+          await api('/api/musico/confirmar',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({tipo:evento.tipo,referencia:evento.referencia,status:valor})});
+          evento.confirmacao=valor;
+          status.textContent=valor==='sim'?'✅ Você confirmou presença.':'❌ Você avisou que não poderá participar.';
+          for(const item of acoes.querySelectorAll('button'))item.setAttribute('aria-pressed',item===botao);
+        }catch(erro){status.textContent=erro.message;}
+        finally{for(const item of acoes.querySelectorAll('button'))item.disabled=false;}
+      };
+    }
+  }
+}
+async function carregarCompromissosMusicos() {
+  if (abaAtual !== 'musicos' || editandoMusico) return;
+  const area = el('lista-compromissos-musico');
+  try {
+    const perfil = await api('/api/musico/perfil');
+    musicoPerfilAtual = perfil;
+    el('musico-entrada').hidden=!!perfil;
+    el('musico-logado').hidden=!perfil;
+    preencherGruposMusico();
+    if (!perfil) return;
+    el('musico-ola').textContent=perfil.nome+' — '+perfil.instrumento;
+    const dados = await api('/api/musico/compromissos');
+    if (abaAtual==='musicos') desenharCompromissosMusico(dados);
+  } catch(erro) {area.replaceChildren();add(area,'p',erro.message,'vazio');}
+}
+el('alterar-musico').onclick=()=>{
+  editandoMusico=true;
+  el('musico-entrada').hidden=false;el('musico-logado').hidden=true;
+  el('form-musico').elements.nome.value=musicoPerfilAtual?.nome||'';
+  el('form-musico').elements.instrumento.value=musicoPerfilAtual?.instrumento||'';
+  preencherGruposMusico();
+};
+el('form-musico').onsubmit=async event=>{
+  event.preventDefault();
+  const formulario=el('form-musico');
+  const botoes=formulario.querySelectorAll('button');
+  const dados=new FormData(formulario);
+  if (!dados.getAll('grupos').length) {el('musico-erro').textContent='Selecione pelo menos um grupo.';return;}
+  for(const botao of botoes)botao.disabled=true;
+  el('musico-erro').textContent='';
+  try {
+    musicoPerfilAtual=await api('/api/musico/perfil',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+      nome:dados.get('nome'),instrumento:dados.get('instrumento'),grupos:dados.getAll('grupos')
+    })});
+    editandoMusico=false;
+    await carregarCompromissosMusicos();
+  }catch(erro){el('musico-erro').textContent=erro.message;}
+  finally{for(const botao of botoes)botao.disabled=false;}
+};
+function presencasTexto(lista,status) {
+  const nomes=lista.filter(item=>item.status===status).map(item=>item.nome+(item.instrumento?' ('+item.instrumento+')':''));
+  return nomes.length ? nomes.join(', ') : 'Ninguém';
+}
+async function carregarPresencasRegente() {
+  if(!perfilAtual || el('regente').hidden) return;
+  const area=el('lista-presencas-regente');
+  try {
+    const eventos=await api('/api/regente/compromissos');
+    if(el('regente').hidden)return;
+    area.replaceChildren();
+    if(!eventos.length){add(area,'p','Os próximos cultos e ensaios aparecerão aqui.','vazio');return;}
+    for (const evento of eventos) {
+      const card=add(area,'article','');
+      add(card,'div',evento.tipo==='ensaio'?'🎼 Ensaio':'⛪ Culto','secao');
+      add(card,'h3',evento.grupo+' — '+dataCurta(evento.data)+(evento.horario?' às '+evento.horario:''));
+      if(evento.local)add(card,'p','Local: '+evento.local,'grupo');
+      if(evento.observacoes)add(card,'p',evento.observacoes,'presencas-detalhes');
+      const confirmacoes=evento.confirmacoes||[];
+      add(card,'p','✅ Confirmados: '+presencasTexto(confirmacoes,'sim'),'presencas-resumo');
+      add(card,'p','❌ Não poderão: '+presencasTexto(confirmacoes,'nao'),'presencas-resumo');
+      add(card,'p','⏳ Sem resposta: '+presencasTexto(confirmacoes,null),'presencas-resumo');
+      if(evento.tipo==='ensaio'&&evento.pode_excluir){
+        const botao=add(card,'button','Excluir ensaio','excluir');
+        botao.onclick=async()=>{
+          if(!confirm('Excluir esse ensaio?'))return;
+          botao.disabled=true;
+          try{await api('/api/ensaios/'+evento.referencia,{method:'DELETE'});await carregarPresencasRegente();}
+          catch(erro){el('ensaio-aviso').textContent=erro.message;botao.disabled=false;}
+        };
+      }
+    }
+  }catch(erro){area.replaceChildren();add(area,'p',erro.message,'vazio');}
+}
+el('form-ensaio').onsubmit=async event=>{
+  event.preventDefault();
+  const formulario=el('form-ensaio'),botao=formulario.querySelector('button[type=submit]');
+  botao.disabled=true;el('ensaio-aviso').textContent='';
+  try{
+    await api('/api/ensaios',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+      grupo:el('grupo-ensaio').value,data:el('dia-ensaio').value,horario:el('hora-ensaio').value,
+      local:el('local-ensaio').value,observacoes:el('obs-ensaio').value
+    })});
+    formulario.reset();el('ensaio-aviso').textContent='Ensaio marcado! Os músicos verão a data na área deles.';
+    preencherGrupoHino();await carregarPresencasRegente();
+  }catch(erro){el('ensaio-aviso').textContent=erro.message;}
+  finally{botao.disabled=false;}
+};
+setInterval(()=>{if(abaAtual==='musicos'&&!document.hidden&&musicoPerfilAtual)carregarCompromissosMusicos();},45000);
+setInterval(()=>{if(abaAtual==='regente'&&!document.hidden&&perfilAtual)carregarPresencasRegente();},45000);
 const gruposPadrao = ['Jovens','Crianças','Adolescentes','Mocidade'];
 let todosGrupos = [...gruposPadrao];
 let perfilAtual = null;
@@ -431,6 +596,10 @@ function preencherGrupoHino(selecionado = '') {
   select.value = grupos.includes(selecionado) ? selecionado : grupos.length === 1 ? grupos[0] : '';
   el('novo-grupo-campo').hidden = true;
   el('novo-grupo').required = false;
+  const ensaioSelect = el('grupo-ensaio');
+  ensaioSelect.replaceChildren();
+  const escolha = add(ensaioSelect,'option','Escolha um grupo'); escolha.value = '';
+  for (const grupo of grupos) {const opcao = add(ensaioSelect,'option',grupo); opcao.value=grupo;}
 }
 function desenharGruposCadastro(selecionados = perfilAtual?.grupos || []) {
   const campo = el('grupos-perfil'); campo.replaceChildren();
@@ -447,6 +616,7 @@ async function carregarGrupos(selecionado = '') {
   catch {el('conta-erro').textContent = 'Não foi possível carregar os grupos. Você pode adicionar o nome abaixo.';}
   preencherGrupoHino(selecionado);
   desenharGruposCadastro();
+  preencherGruposMusico();
 }
 el('adicionar-grupo-perfil').onclick = () => {
   const input = el('novo-grupo-perfil'); const nome = input.value.trim();
@@ -464,7 +634,7 @@ function exibirPerfil() {
   el('conta-nome').textContent = perfilAtual ? 'Regente: ' + perfilAtual.nome : '';
   el('form-conta').elements.nome.value = perfilAtual?.nome || '';
   preencherGrupoHino(); desenharGruposCadastro();
-  if (perfilAtual) mostrarEnvios();
+  if (perfilAtual) {mostrarEnvios();carregarPresencasRegente();}
 }
 el('editar-perfil').onclick = () => {
   el('conta-entrada').hidden = false; el('conta-conteudo').hidden = true;
@@ -519,6 +689,7 @@ async function iniciarPerfil() {
   perfilAtual = await api('/api/perfil'); exibirPerfil();
 }
 iniciarPerfil().catch(erro => el('conta-erro').textContent = erro.message);
+if (location.pathname === '/musicos') abrir('musicos');
 </script></body></html>`;
 
 function youtubeVideo(value) {
@@ -739,10 +910,155 @@ async function pushAvisar(env,papel,perfilId='') {
   }
 }
 
+
+const COOKIE_MUSICO = '__Host-louvor_musico';
+async function prepararPresencas(env) {
+  // Tabelas novas e independentes. Não modifica nem apaga os hinos já cadastrados.
+  await env.DB.prepare("CREATE TABLE IF NOT EXISTS musicos (id TEXT PRIMARY KEY, nome TEXT NOT NULL, instrumento TEXT NOT NULL, grupos TEXT NOT NULL)").run();
+  await env.DB.prepare("CREATE TABLE IF NOT EXISTS musico_sessoes (token_hash TEXT PRIMARY KEY, musico_id TEXT NOT NULL, expira INTEGER NOT NULL)").run();
+  await env.DB.prepare("CREATE TABLE IF NOT EXISTS ensaios (id INTEGER PRIMARY KEY AUTOINCREMENT, regente_id TEXT NOT NULL, grupo TEXT NOT NULL, data TEXT NOT NULL, horario TEXT NOT NULL, local TEXT NOT NULL DEFAULT '', observacoes TEXT NOT NULL DEFAULT '')").run();
+  await env.DB.prepare("CREATE TABLE IF NOT EXISTS presencas_musicos (musico_id TEXT NOT NULL, tipo TEXT NOT NULL CHECK(tipo IN ('ensaio','culto')), referencia TEXT NOT NULL, status TEXT NOT NULL CHECK(status IN ('sim','nao')), atualizado INTEGER NOT NULL, PRIMARY KEY(musico_id,tipo,referencia))").run();
+}
+function tokenMusico(request) {
+  const item = (request.headers.get('Cookie') || '').split(';').map(x=>x.trim()).find(x=>x.startsWith(COOKIE_MUSICO+'='));
+  const token = item?.slice(COOKIE_MUSICO.length+1);
+  return token && /^[a-f0-9]{64}$/.test(token) ? token : null;
+}
+async function obterMusico(request,env) {
+  const token=tokenMusico(request);
+  if(!token)return null;
+  await prepararPresencas(env);
+  const registro=await env.DB.prepare('SELECT m.id,m.nome,m.instrumento,m.grupos FROM musicos m JOIN musico_sessoes s ON s.musico_id=m.id WHERE s.token_hash = ? AND s.expira > ?')
+    .bind(await hashToken(token),Date.now()).first();
+  return registro ? {...registro,grupos:JSON.parse(registro.grupos)} : null;
+}
+async function rotaMusicoPerfil(request,env) {
+  await prepararPresencas(env);
+  const atual=await obterMusico(request,env);
+  if(request.method==='GET')return json(atual ? {nome:atual.nome,instrumento:atual.instrumento,grupos:atual.grupos}:null);
+  if(request.method!=='POST')return json({erro:'Método não permitido.'},405);
+  const dados=await request.json().catch(()=>null);
+  const nome=typeof dados?.nome==='string'?dados.nome.trim():'';
+  const instrumento=typeof dados?.instrumento==='string'?dados.instrumento.trim():'';
+  const grupos=Array.isArray(dados?.grupos)?[...new Set(dados.grupos.filter(x=>typeof x==='string').map(x=>x.trim()))]:[];
+  if(!nome||nome.length>100||!instrumento||instrumento.length>100||grupos.length<1||grupos.length>30||grupos.some(x=>!x||x.length>100))
+    return json({erro:'Informe seu nome, instrumento e pelo menos um grupo.'},400);
+  const id=atual?.id||crypto.randomUUID();
+  const token=tokenMusico(request)||aleatorio();
+  await env.DB.batch([
+    env.DB.prepare('INSERT INTO musicos (id,nome,instrumento,grupos) VALUES (?,?,?,?) ON CONFLICT(id) DO UPDATE SET nome=excluded.nome,instrumento=excluded.instrumento,grupos=excluded.grupos').bind(id,nome,instrumento,JSON.stringify(grupos)),
+    env.DB.prepare('INSERT INTO musico_sessoes (token_hash,musico_id,expira) VALUES (?,?,?) ON CONFLICT(token_hash) DO UPDATE SET musico_id=excluded.musico_id,expira=excluded.expira').bind(await hashToken(token),id,Date.now()+TEMPO_SESSAO*1000)
+  ]);
+  const resposta=json({nome,instrumento,grupos});
+  resposta.headers.set('Set-Cookie',COOKIE_MUSICO+'='+token+'; Path=/; Secure; HttpOnly; SameSite=Strict; Max-Age='+TEMPO_SESSAO);
+  return resposta;
+}
+async function compromissosFuturos(env) {
+  await prepararPresencas(env);
+  const hojeLocal=hoje();
+  const [ensaios, cultos]=await Promise.all([
+    env.DB.prepare('SELECT id,grupo,data,horario,local,observacoes,regente_id FROM ensaios WHERE data >= ? ORDER BY data,horario,id').bind(hojeLocal).all(),
+    env.DB.prepare("SELECT DISTINCT grupo,data_louvor FROM hinos WHERE data_louvor >= ? AND modo = 'vivo' ORDER BY data_louvor,grupo").bind(hojeLocal).all()
+  ]);
+  const eventos=[
+    ...ensaios.results.map(e=>({tipo:'ensaio',referencia:String(e.id),grupo:e.grupo,data:e.data,horario:e.horario,local:e.local,observacoes:e.observacoes,regente_id:e.regente_id})),
+    ...cultos.results.map(e=>({tipo:'culto',referencia:e.data_louvor+'|'+e.grupo,grupo:e.grupo,data:e.data_louvor,horario:'',local:'',observacoes:''}))
+  ];
+  eventos.sort((a,b)=>a.data.localeCompare(b.data)||a.horario.localeCompare(b.horario)||a.grupo.localeCompare(b.grupo));
+  return eventos;
+}
+async function rotaCompromissosMusico(request,env) {
+  const musico=await obterMusico(request,env);
+  if(!musico)return json({erro:'Cadastre seu nome para confirmar presença.'},401);
+  const [eventos,registros]=await Promise.all([
+    compromissosFuturos(env),
+    env.DB.prepare('SELECT tipo,referencia,status FROM presencas_musicos WHERE musico_id = ?').bind(musico.id).all()
+  ]);
+  const status=new Map(registros.results.map(r=>[r.tipo+'|'+r.referencia,r.status]));
+  return json({compromissos:eventos.filter(e=>musico.grupos.includes(e.grupo)).map(e=>({
+    tipo:e.tipo,referencia:e.referencia,grupo:e.grupo,data:e.data,horario:e.horario,local:e.local,observacoes:e.observacoes,
+    confirmacao:status.get(e.tipo+'|'+e.referencia)||null
+  }))});
+}
+async function rotaConfirmarMusico(request,env,ctx) {
+  const musico=await obterMusico(request,env);
+  if(!musico)return json({erro:'Cadastre seu nome para confirmar presença.'},401);
+  const dados=await request.json().catch(()=>null);
+  if(!['ensaio','culto'].includes(dados?.tipo)||!['sim','nao'].includes(dados?.status)||typeof dados?.referencia!=='string'||dados.referencia.length>160)
+    return json({erro:'Confirmação inválida.'},400);
+  let grupo, regentes=[];
+  if(dados.tipo==='ensaio') {
+    if(!/^[1-9][0-9]*$/.test(dados.referencia)||!Number.isSafeInteger(Number(dados.referencia)))return json({erro:'Ensaio inválido.'},400);
+    const ensaio=await env.DB.prepare('SELECT grupo,data,regente_id FROM ensaios WHERE id = ?').bind(Number(dados.referencia)).first();
+    if(!ensaio||ensaio.data<hoje())return json({erro:'Esse ensaio não está mais disponível.'},404);
+    grupo=ensaio.grupo;regentes=[ensaio.regente_id];
+  } else {
+    const separador=dados.referencia.indexOf('|');
+    const data=separador>0?dados.referencia.slice(0,separador):'';
+    grupo=separador>0?dados.referencia.slice(separador+1):'';
+    if(!dataValida(data)||data<hoje()||!grupo||grupo.length>100)return json({erro:'Culto inválido.'},400);
+    const {results}=await env.DB.prepare("SELECT DISTINCT perfil_id FROM hinos WHERE grupo = ? AND data_louvor = ? AND modo = 'vivo'").bind(grupo,data).all();
+    if(!results.length)return json({erro:'Nenhum louvor ao vivo encontrado para esse culto.'},404);
+    regentes=results.map(r=>r.perfil_id).filter(Boolean);
+  }
+  if(!musico.grupos.includes(grupo))return json({erro:'Esse evento não pertence aos seus grupos.'},403);
+  const anterior=await env.DB.prepare('SELECT status FROM presencas_musicos WHERE musico_id = ? AND tipo = ? AND referencia = ?').bind(musico.id,dados.tipo,dados.referencia).first();
+  await env.DB.prepare('INSERT INTO presencas_musicos (musico_id,tipo,referencia,status,atualizado) VALUES (?,?,?,?,?) ON CONFLICT(musico_id,tipo,referencia) DO UPDATE SET status=excluded.status,atualizado=excluded.atualizado')
+    .bind(musico.id,dados.tipo,dados.referencia,dados.status,Date.now()).run();
+  if(anterior?.status!==dados.status && ctx?.waitUntil) {
+    ctx.waitUntil(Promise.allSettled([...new Set(regentes)].map(regente=>pushAvisar(env,'regente',regente))));
+  }
+  return json({ok:true});
+}
+async function rotaEnsaios(request,env,ctx) {
+  const regente=await obterConta(request,env);
+  if(!regente)return json({erro:'Cadastre-se como regente antes de marcar ensaios.'},401);
+  await prepararPresencas(env);
+  const dados=await request.json().catch(()=>null);
+  const grupo=typeof dados?.grupo==='string'?dados.grupo.trim():'';
+  const data=dados?.data, horario=dados?.horario;
+  const local=typeof dados?.local==='string'?dados.local.trim():'';
+  const observacoes=typeof dados?.observacoes==='string'?dados.observacoes.trim():'';
+  if(!regente.grupos.includes(grupo)||!dataValida(data)||data<hoje()||
+     typeof horario!=='string'||!/^([01][0-9]|2[0-3]):[0-5][0-9]$/.test(horario)||
+     local.length>160||observacoes.length>500)
+    return json({erro:'Confira o grupo, a data e o horário do ensaio.'},400);
+  const resultado=await env.DB.prepare('INSERT INTO ensaios (regente_id,grupo,data,horario,local,observacoes) VALUES (?,?,?,?,?,?)')
+    .bind(regente.id,grupo,data,horario,local,observacoes).run();
+  if(ctx?.waitUntil)ctx.waitUntil(pushAvisar(env,'musicos'));
+  return json({ok:true,id:resultado.meta.last_row_id},201);
+}
+async function rotaExcluirEnsaio(request,env,id) {
+  const regente=await obterConta(request,env);
+  if(!regente)return json({erro:'Cadastre-se como regente para excluir seus ensaios.'},401);
+  await prepararPresencas(env);
+  const resultado=await env.DB.prepare('DELETE FROM ensaios WHERE id = ? AND regente_id = ?').bind(id,regente.id).run();
+  if(!resultado.meta.changes)return json({erro:'Ensaio não encontrado neste cadastro.'},404);
+  await env.DB.prepare("DELETE FROM presencas_musicos WHERE tipo = 'ensaio' AND referencia = ?").bind(String(id)).run();
+  return json({ok:true});
+}
+async function rotaCompromissosRegente(request,env) {
+  const regente=await obterConta(request,env);
+  if(!regente)return json({erro:'Cadastre-se como regente para ver confirmações.'},401);
+  const [eventos,musicos,confirmacoes]=await Promise.all([
+    compromissosFuturos(env),
+    env.DB.prepare('SELECT id,nome,instrumento,grupos FROM musicos').all(),
+    env.DB.prepare('SELECT musico_id,tipo,referencia,status FROM presencas_musicos').all()
+  ]);
+  const estados=new Map(confirmacoes.results.map(r=>[r.musico_id+'|'+r.tipo+'|'+r.referencia,r.status]));
+  return json(eventos.filter(e=>regente.grupos.includes(e.grupo)).map(e=>({
+    tipo:e.tipo,referencia:e.referencia,grupo:e.grupo,data:e.data,horario:e.horario,local:e.local,observacoes:e.observacoes,
+    pode_excluir:e.tipo==='ensaio'&&e.regente_id===regente.id,
+    confirmacoes:musicos.results.filter(m=>{
+      try{return JSON.parse(m.grupos).includes(e.grupo);}catch{return false;}
+    }).map(m=>({nome:m.nome,instrumento:m.instrumento,status:estados.get(m.id+'|'+e.tipo+'|'+e.referencia)||null}))
+  })));
+}
+
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
-    if (request.method === 'GET' && url.pathname === '/') {
+    if (request.method === 'GET' && (url.pathname === '/' || url.pathname === '/musicos')) {
       return new Response(page,{headers:{'Content-Type':'text/html; charset=utf-8','Referrer-Policy':'strict-origin-when-cross-origin'}});
     }
     if (request.method === 'GET' && url.pathname === '/sw.js')
@@ -764,6 +1080,16 @@ export default {
       if (url.pathname === '/api/push/inscrever') {
         if (request.method === 'POST') return await pushInscrever(request,env);
         if (request.method === 'DELETE') return await pushDesinscrever(request,env);
+      }
+      if (url.pathname === '/api/musico/perfil') return await rotaMusicoPerfil(request,env);
+      if (request.method === 'GET' && url.pathname === '/api/musico/compromissos') return await rotaCompromissosMusico(request,env);
+      if (request.method === 'POST' && url.pathname === '/api/musico/confirmar') return await rotaConfirmarMusico(request,env,ctx);
+      if (request.method === 'GET' && url.pathname === '/api/regente/compromissos') return await rotaCompromissosRegente(request,env);
+      if (request.method === 'POST' && url.pathname === '/api/ensaios') return await rotaEnsaios(request,env,ctx);
+      if (request.method === 'DELETE' && /^\/api\/ensaios\/[1-9][0-9]*$/.test(url.pathname)) {
+        const id=Number(url.pathname.split('/').pop());
+        if(!Number.isSafeInteger(id))return json({erro:'Ensaio inválido.'},400);
+        return await rotaExcluirEnsaio(request,env,id);
       }
       if (url.pathname === '/api/perfil') return await rotaPerfil(request,env);
       if (request.method === 'GET' && url.pathname === '/api/youtube') {

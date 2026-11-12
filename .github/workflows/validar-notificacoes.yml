@@ -18,3 +18,5 @@ jobs:
         run: node scripts/validate-push.mjs
       - name: Testar notificações sem dados reais
         run: node scripts/test-push.mjs
+      - name: Testar cadastro, ensaios e confirmações
+        run: node scripts/test-presencas.mjs

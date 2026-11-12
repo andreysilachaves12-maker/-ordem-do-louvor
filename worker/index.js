@@ -1,13 +1,15 @@
 const page = `<!doctype html>
-<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ordem do Louvor</title>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ordem do Louvor</title><link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#111729">
 <style>
 :root{color-scheme:dark;font:16px system-ui,sans-serif;background:#111729;color:#f7f4ec}*{box-sizing:border-box}[hidden]{display:none!important}body{margin:0}header{background:radial-gradient(ellipse at right,#313864,#191f38 66%);border-bottom:1px solid #424966;padding:3rem 1.2rem 5rem}header>div,main{max-width:700px;margin:auto}.marca,.secao{color:#ffce82;font-size:.75rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase}h1{font-size:clamp(2.6rem,9vw,4rem);line-height:1;margin:.55rem 0;font-family:Georgia,serif;font-weight:normal}p{color:#c4cae2;line-height:1.5}header p{margin:.8rem 0 0}main{position:relative;margin:-2.25rem auto 3rem;padding:0 1rem}.card,nav,article{border:1px solid #404967;background:#1b233b;border-radius:18px;padding:1.25rem}nav{display:flex;padding:.35rem;gap:.35rem;margin-bottom:1rem}nav button{flex:1;border:0;padding:.75rem .35rem;min-width:0;font-size:.9rem}textarea{resize:vertical}.orientacoes{white-space:pre-wrap;overflow-wrap:anywhere}button,a{font:inherit}button,.acoes .cifra{cursor:pointer;padding:.8rem 1rem;border-radius:10px;border:1px solid #606c91;background:#293453;color:#fff;font-weight:700}button[aria-pressed=true],.primary{background:#ffce82;color:#221b15;border-color:#ffce82}button:disabled{opacity:.65;cursor:wait}h2{margin:.35rem 0 .5rem}label,legend{font-weight:700}label.campo{display:block;margin-top:1rem}select,textarea,input:not([type=radio]):not([type=checkbox]){display:block;width:100%;margin-top:.4rem;background:#141b30;color:#fff;border:1px solid #657094;border-radius:9px;padding:.78rem;font:inherit}fieldset{margin:1.15rem 0;padding:.7rem;border:1px solid #606c91;border-radius:10px;display:flex;flex-wrap:wrap;gap:1rem}fieldset label{padding:.35rem;cursor:pointer}input[type=radio]{accent-color:#ffce82}.primary{width:100%}#aviso{min-height:1.5em;color:#ffda9e}article{margin-top:.75rem;padding:1rem;background:#151c31}article h3{margin:.35rem 0;font-size:1.3rem;overflow-wrap:anywhere}.grupo{margin:.35rem 0;color:#c4cae2;overflow-wrap:anywhere}.acoes{display:flex;align-items:center;flex-wrap:wrap;gap:.75rem;margin-top:.75rem}.acoes a{color:#ffda9e}.acoes .cifra{text-decoration:none}.barra{display:flex;align-items:center;justify-content:space-between;gap:.5rem}.status{color:#b8e6ca;font-weight:700}.status-pendente{color:#ffda9e;font-weight:700}.vazio{padding:1rem;border:1px dashed #657094;border-radius:12px}:focus-visible{outline:3px solid #ffce82;outline-offset:3px}
 .acoes .excluir{background:transparent;color:#ffb8b8;border-color:#915d6e}#youtube-resultados article{display:flex;gap:.85rem;align-items:flex-start}#youtube-resultados img{width:120px;max-width:34%;aspect-ratio:16/9;object-fit:cover;border-radius:8px}#youtube-resultados .resultado-conteudo{flex:1;min-width:0}#youtube-resultados .resultado-conteudo p{margin:.3rem 0 .6rem}#youtube-resultados button{padding:.55rem .75rem}
 #plano-b-musicos{margin-top:1.25rem;padding:.8rem 1rem;border:1px solid #606c91;border-radius:14px;background:#151c31}#plano-b-musicos summary{cursor:pointer;color:#ffce82;font-weight:800;line-height:1.5;padding:.3rem 0}#plano-b-musicos[open] summary{margin-bottom:.5rem}#plano-b-musicos article{background:#1b233b}
 #player,#confirmar-exclusao,#acesso,#busca-youtube-dialog{width:min(92vw,680px);max-height:90dvh;border:1px solid #606c91;border-radius:18px;background:#1b233b;color:#f7f4ec;padding:1rem}#player::backdrop,#confirmar-exclusao::backdrop,#acesso::backdrop,#busca-youtube-dialog::backdrop{background:#080c18cc}#player-video iframe{display:block;width:100%;aspect-ratio:16/9;min-height:200px;border:0;margin-top:1rem}
+#alertas-config{margin-bottom:1rem;padding:.8rem 1rem;border:1px solid #404967;border-radius:14px;background:#1b233b}#alertas-config p{font-size:.85rem;margin:.35rem 0 0}#alertas-config .acoes{margin-top:0}#alertas-config button{font-size:.9rem;padding:.65rem .8rem}#notificacoes-status{color:#d5e0ff}
 </style></head><body>
 <header><div><div class="marca">♫ &nbsp; Equipe do culto</div><h1>Ordem do Louvor</h1><p>O repertório da igreja em um só lugar.</p></div></header>
 <main><nav aria-label="Área de trabalho"><button id="aba-regente" aria-pressed="true">Regente</button><button id="aba-musicos" aria-pressed="false">Músicos</button><button id="aba-midia" aria-pressed="false">Mídia</button><button id="aba-adm" aria-pressed="false">ADM</button></nav>
+<div id="alertas-config"><div class="acoes"><button id="notificacoes-btn" type="button">🔔 Ativar notificações</button><button id="notificacoes-parar" type="button" hidden>Desativar neste celular</button></div><p id="notificacoes-status" role="status">Receba avisos dos louvores diretamente no seu celular.</p></div>
 <section class="card" id="regente"><div class="secao">Cadastro</div><div id="conta-entrada"><h2>Cadastro do regente</h2><p>Informe seu nome e marque os grupos que você dirige. O cadastro fica salvo neste navegador, sem senha.</p><form id="form-conta"><label class="campo">Nome do regente<input name="nome" required maxlength="100" autocomplete="name" placeholder="Seu nome"></label><fieldset id="grupos-perfil"><legend>De quais grupos você é regente?</legend></fieldset><div class="acoes"><label class="campo">Não encontrou seu grupo?<input id="novo-grupo-perfil" maxlength="100" placeholder="Nome do novo grupo"></label><button id="adicionar-grupo-perfil" type="button">Adicionar grupo</button></div><p id="conta-erro" role="status"></p><button class="primary" type="submit">Salvar cadastro</button><p><button id="cancelar-perfil" type="button" hidden>Cancelar</button></p></form></div><div id="conta-conteudo" hidden><div class="barra"><p id="conta-nome"></p><button id="editar-perfil" type="button">Alterar cadastro</button></div><h2>Enviar um hino</h2><form id="form">
 <label class="campo">Nome do grupo<select name="grupo" id="grupo" required><option value="">Selecione o grupo</option></select></label><label class="campo" id="novo-grupo-campo" hidden>Novo grupo<input id="novo-grupo" maxlength="100" placeholder="Digite o nome do grupo"></label>
 <label class="campo">Nome do hino<input name="hino" maxlength="150" placeholder="Digite o nome do hino" required></label>
@@ -89,6 +91,68 @@ el('buscar-youtube').onclick = async () => {
     add(resultadosYouTube,'p','Você pode continuar colando o link do YouTube manualmente.');
   }
 };
+// Inscrição voluntária nas notificações push; nenhum aviso é pedido sem toque do usuário.
+function decodificarChavePush(chave) {
+  const base64 = chave.replace(/-/g,'+').replace(/_/g,'/');
+  const binario = atob(base64 + '='.repeat((4 - base64.length % 4) % 4));
+  return Uint8Array.from(binario, c => c.charCodeAt(0));
+}
+const botaoNotificacoes = el('notificacoes-btn');
+const pararNotificacoes = el('notificacoes-parar');
+const statusNotificacoes = el('notificacoes-status');
+const suportePush = 'serviceWorker' in navigator && 'PushManager' in window && 'Notification' in window;
+if (!suportePush) statusNotificacoes.textContent = 'Este navegador não oferece notificações push. Tente pelo Chrome atualizado.';
+botaoNotificacoes.onclick = async () => {
+  if (!suportePush) return;
+  const papel = abaAtual === 'regente' ? 'regente' : abaAtual === 'musicos' ? 'musicos' : 'midia';
+  if (papel === 'regente' && !perfilAtual) {
+    statusNotificacoes.textContent = 'Primeiro salve seu cadastro de regente.';
+    return;
+  }
+  // A permissão deve ser solicitada diretamente após o clique.
+  let permissao = Notification.permission;
+  if (permissao === 'default') permissao = await Notification.requestPermission();
+  if (permissao !== 'granted') {
+    statusNotificacoes.textContent = 'Notificações não autorizadas. Ative a permissão nas configurações do navegador.';
+    return;
+  }
+  botaoNotificacoes.disabled = true;
+  try {
+    const registro = await navigator.serviceWorker.register('/sw.js');
+    const configuracao = await api('/api/push/config');
+    let assinatura = await registro.pushManager.getSubscription();
+    if (!assinatura) assinatura = await registro.pushManager.subscribe({
+      userVisibleOnly:true,
+      applicationServerKey:decodificarChavePush(configuracao.chavePublica)
+    });
+    await api('/api/push/inscrever',{
+      method:'POST',
+      headers:{'Content-Type':'application/json', 'X-Repertorio-Senha':senhaAcesso || ''},
+      body:JSON.stringify({papel,assinatura:assinatura.toJSON()})
+    });
+    statusNotificacoes.textContent = '✅ Avisos ativados para ' + (papel === 'regente' ? 'o regente' : papel === 'musicos' ? 'os músicos' : 'a mídia') + ' neste celular.';
+    pararNotificacoes.hidden = false;
+  } catch (erro) {
+    statusNotificacoes.textContent = 'Não foi possível ativar: ' + erro.message;
+  } finally {
+    botaoNotificacoes.disabled = false;
+  }
+};
+pararNotificacoes.onclick = async () => {
+  try {
+    const registro = await navigator.serviceWorker.getRegistration('/sw.js');
+    const assinatura = await registro?.pushManager?.getSubscription();
+    if (assinatura) {
+      await api('/api/push/inscrever',{method:'DELETE',headers:{'Content-Type':'application/json'},body:JSON.stringify({endpoint:assinatura.endpoint})});
+      await assinatura.unsubscribe();
+    }
+    pararNotificacoes.hidden = true;
+    statusNotificacoes.textContent = 'Notificações desativadas neste celular.';
+  } catch (erro) {
+    statusNotificacoes.textContent = 'Não foi possível desativar: ' + erro.message;
+  }
+};
+
 const midia = el('midia');
 const modo = {vivo:'Ao vivo com os músicos',audio:'Áudio no computador'};
 const player = el('player');
@@ -544,17 +608,162 @@ function verificarSenha(senha, env) {
   return null;
 }
 
+
+const pushServiceWorker = `
+self.addEventListener('push', event => {
+  event.waitUntil(self.registration.showNotification('Ordem do Louvor', {
+    body:'Há novidades na programação dos louvores. Toque para conferir.',
+    icon:'/icon.svg',badge:'/icon.svg',tag:'atualizacao-louvor',
+    data:{url:'/'}
+  }));
+});
+self.addEventListener('notificationclick', event => {
+  event.notification.close();
+  event.waitUntil((async () => {
+    const janelas = await clients.matchAll({type:'window',includeUncontrolled:true});
+    for (const janela of janelas) {
+      if (new URL(janela.url).origin === self.location.origin) {
+        await janela.focus();
+        return;
+      }
+    }
+    await clients.openWindow(event.notification.data?.url || '/');
+  })());
+});
+`;
+const pushManifesto = JSON.stringify({
+  name:'Ordem do Louvor',short_name:'Louvores',lang:'pt-BR',
+  start_url:'/',display:'standalone',background_color:'#111729',theme_color:'#111729',
+  icons:[{src:'/icon.svg',type:'image/svg+xml',sizes:'any',purpose:'any maskable'}]
+});
+const pushIcone = '<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192"><rect width="192" height="192" rx="38" fill="#1b233b"/><path d="M115 33v86a30 30 0 1 1-14-26V54l46-12v-17z" fill="#ffce82"/></svg>';
+const codificarB64url = bytes => btoa(String.fromCharCode(...bytes)).replaceAll('=','').replaceAll('+','-').replaceAll('/','_');
+function decodificarB64url(valor) {
+  const base = valor.replaceAll('-','+').replaceAll('_','/');
+  return Uint8Array.from(atob(base+'='.repeat((4-base.length%4)%4)), c=>c.charCodeAt(0));
+}
+async function pushPreparar(env) {
+  // Apenas tabelas novas. Não altera o banco de hinos, perfis ou grupos.
+  await env.DB.prepare("CREATE TABLE IF NOT EXISTS push_chaves (id INTEGER PRIMARY KEY CHECK(id = 1), publica TEXT NOT NULL, privada TEXT NOT NULL)").run();
+  await env.DB.prepare("CREATE TABLE IF NOT EXISTS push_dispositivos (endpoint TEXT NOT NULL, papel TEXT NOT NULL, perfil_id TEXT NOT NULL DEFAULT '', criado_em INTEGER NOT NULL, PRIMARY KEY(endpoint,papel,perfil_id))").run();
+  let chaves = await env.DB.prepare('SELECT publica, privada FROM push_chaves WHERE id = 1').first();
+  if (!chaves) {
+    const par = await crypto.subtle.generateKey({name:'ECDSA',namedCurve:'P-256'},true,['sign','verify']);
+    const jwk = await crypto.subtle.exportKey('jwk',par.privateKey);
+    const publica = codificarB64url(new Uint8Array([4,...decodificarB64url(jwk.x),...decodificarB64url(jwk.y)]));
+    await env.DB.prepare('INSERT OR IGNORE INTO push_chaves (id,publica,privada) VALUES (1,?,?)').bind(publica,JSON.stringify(jwk)).run();
+    chaves = await env.DB.prepare('SELECT publica, privada FROM push_chaves WHERE id = 1').first();
+  }
+  return chaves;
+}
+function pushDestinoSeguro(endpoint) {
+  if (typeof endpoint !== 'string' || endpoint.length > 2048) return false;
+  try {
+    const url = new URL(endpoint);
+    const host = url.hostname.toLowerCase();
+    return url.protocol === 'https:' && !url.username && !url.password && (
+      host === 'fcm.googleapis.com' ||
+      host === 'updates.push.services.mozilla.com' ||
+      host === 'push.services.mozilla.com' ||
+      host === 'web.push.apple.com' ||
+      host.endsWith('.push.apple.com') ||
+      host.endsWith('.notify.windows.com')
+    );
+  } catch { return false; }
+}
+async function pushInscrever(request,env) {
+  const dados = await request.json().catch(()=>null);
+  const papel = dados?.papel;
+  if (!['regente','midia','musicos'].includes(papel) || !pushDestinoSeguro(dados?.assinatura?.endpoint) ||
+      typeof dados?.assinatura?.keys?.auth !== 'string' || typeof dados?.assinatura?.keys?.p256dh !== 'string') {
+    return json({erro:'Assinatura de notificação inválida.'},400);
+  }
+  let perfilId = '';
+  if (papel === 'regente') {
+    const conta = await obterConta(request,env);
+    if (!conta) return json({erro:'Cadastre-se como regente antes de ativar notificações.'},401);
+    perfilId = conta.id;
+  }
+  if (papel === 'midia') {
+    const erro = verificarSenha(request.headers.get('X-Repertorio-Senha'),env);
+    if (erro) return erro;
+  }
+  await pushPreparar(env);
+  await env.DB.prepare('INSERT OR REPLACE INTO push_dispositivos (endpoint,papel,perfil_id,criado_em) VALUES (?,?,?,?)')
+    .bind(dados.assinatura.endpoint,papel,perfilId,Date.now()).run();
+  return json({ok:true});
+}
+async function pushDesinscrever(request,env) {
+  const dados = await request.json().catch(()=>null);
+  if (!pushDestinoSeguro(dados?.endpoint)) return json({erro:'Dispositivo inválido.'},400);
+  await pushPreparar(env);
+  await env.DB.prepare('DELETE FROM push_dispositivos WHERE endpoint = ?').bind(dados.endpoint).run();
+  return json({ok:true});
+}
+async function pushEnviar(endpoint,chaves,env) {
+  if (!pushDestinoSeguro(endpoint)) return;
+  const url = new URL(endpoint);
+  const aud = url.origin;
+  const agora = Math.floor(Date.now()/1000);
+  const cabecalho = codificarB64url(new TextEncoder().encode(JSON.stringify({typ:'JWT',alg:'ES256'})));
+  const corpo = codificarB64url(new TextEncoder().encode(JSON.stringify({
+    aud, exp:agora+12*60*60, sub:'https://ordem-do-louvor.andreysilachaves12.workers.dev'
+  })));
+  const texto = cabecalho+'.'+corpo;
+  const chave = await crypto.subtle.importKey('jwk',JSON.parse(chaves.privada),{name:'ECDSA',namedCurve:'P-256'},false,['sign']);
+  const assinatura = codificarB64url(new Uint8Array(await crypto.subtle.sign({name:'ECDSA',hash:'SHA-256'},chave,new TextEncoder().encode(texto))));
+  const resposta = await fetch(endpoint,{
+    method:'POST',
+    headers:{
+      Authorization:'vapid t='+texto+'.'+assinatura+', k='+chaves.publica,
+      TTL:'3600'
+    }
+  });
+  if (resposta.status === 404 || resposta.status === 410) {
+    await env.DB.prepare('DELETE FROM push_dispositivos WHERE endpoint = ?').bind(endpoint).run();
+  } else if (!resposta.ok) {
+    console.error('Erro no serviço de push:',resposta.status);
+  }
+}
+async function pushAvisar(env,papel,perfilId='') {
+  try {
+    const chaves = await pushPreparar(env);
+    const consulta = perfilId
+      ? env.DB.prepare('SELECT DISTINCT endpoint FROM push_dispositivos WHERE papel = ? AND perfil_id = ? LIMIT 200').bind(papel,perfilId)
+      : env.DB.prepare('SELECT DISTINCT endpoint FROM push_dispositivos WHERE papel = ? LIMIT 200').bind(papel);
+    const {results} = await consulta.all();
+    await Promise.allSettled(results.map(row => pushEnviar(row.endpoint,chaves,env)));
+  } catch (erro) {
+    // Falha de aviso não deve interromper o envio ou confirmação de hinos.
+    console.error('Falha no envio de notificações:',erro);
+  }
+}
+
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const url = new URL(request.url);
     if (request.method === 'GET' && url.pathname === '/') {
       return new Response(page,{headers:{'Content-Type':'text/html; charset=utf-8','Referrer-Policy':'strict-origin-when-cross-origin'}});
     }
+    if (request.method === 'GET' && url.pathname === '/sw.js')
+      return new Response(pushServiceWorker,{headers:{'Content-Type':'text/javascript; charset=utf-8','Cache-Control':'no-cache','Service-Worker-Allowed':'/'}});
+    if (request.method === 'GET' && url.pathname === '/manifest.webmanifest')
+      return new Response(pushManifesto,{headers:{'Content-Type':'application/manifest+json','Cache-Control':'public, max-age=3600'}});
+    if (request.method === 'GET' && url.pathname === '/icon.svg')
+      return new Response(pushIcone,{headers:{'Content-Type':'image/svg+xml','Cache-Control':'public, max-age=86400'}});
     try {
       if (['POST','DELETE'].includes(request.method)) {
         const origin = request.headers.get('Origin');
         if (origin && origin !== url.origin) return json({erro:'Origem inválida.'},403);
         if (request.headers.get('Sec-Fetch-Site') === 'cross-site') return json({erro:'Origem inválida.'},403);
+      }
+      if (request.method === 'GET' && url.pathname === '/api/push/config') {
+        const chaves = await pushPreparar(env);
+        return json({chavePublica:chaves.publica});
+      }
+      if (url.pathname === '/api/push/inscrever') {
+        if (request.method === 'POST') return await pushInscrever(request,env);
+        if (request.method === 'DELETE') return await pushDesinscrever(request,env);
       }
       if (url.pathname === '/api/perfil') return await rotaPerfil(request,env);
       if (request.method === 'GET' && url.pathname === '/api/youtube') {
@@ -650,13 +859,23 @@ export default {
             env.DB.prepare('INSERT OR IGNORE INTO grupos (nome) VALUES (?)').bind(grupo),
             env.DB.prepare('INSERT INTO hinos (grupo,hino,youtube,modo,data_louvor,cantor,orientacoes,perfil_id) VALUES (?,?,?,?,?,?,?,?)').bind(grupo,hino,youtube,data.modo,data.data_louvor,cantor,orientacoes,conta.id)
           ]);
+          if (data.data_louvor >= hoje()) {
+            ctx.waitUntil(Promise.allSettled([
+              pushAvisar(env,'midia'),
+              ...(data.modo === 'vivo' ? [pushAvisar(env,'musicos')] : [])
+            ]));
+          }
           return json({ok:true,id:resultados[1].meta.last_row_id,data_passada:data.data_louvor < hoje()},201);
         }
         const recebido = url.pathname.match(/^\/api\/hinos\/(\d+)\/recebido$/);
         if (recebido && Number.isSafeInteger(Number(recebido[1]))) {
           const erro = verificarSenha(request.headers.get('X-Repertorio-Senha'), env);
           if (erro) return erro;
+          const anterior = await env.DB.prepare('SELECT perfil_id, recebido FROM hinos WHERE id = ?').bind(Number(recebido[1])).first();
           const result = await env.DB.prepare('UPDATE hinos SET recebido = 1 WHERE id = ?').bind(Number(recebido[1])).run();
+          if (result.meta.changes && anterior?.perfil_id && !anterior.recebido) {
+            ctx.waitUntil(pushAvisar(env,'regente',anterior.perfil_id));
+          }
           return result.meta.changes ? json({ok:true}) : json({erro:'Hino não encontrado.'},404);
         }
       }

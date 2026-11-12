@@ -16,3 +16,5 @@ jobs:
         run: node --check worker/index.js
       - name: Verificar tela e service worker
         run: node scripts/validate-push.mjs
+      - name: Testar notificações sem dados reais
+        run: node scripts/test-push.mjs

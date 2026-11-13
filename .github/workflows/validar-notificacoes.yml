@@ -20,3 +20,5 @@ jobs:
         run: node scripts/test-push.mjs
       - name: Testar cadastro, ensaios e confirmações
         run: node scripts/test-presencas.mjs
+      - name: Testar grupos fixos do cadastro
+        run: node scripts/test-grupos.mjs

@@ -11,9 +11,8 @@ const page = `<!doctype html>
 <header><div><div class="marca">♫ &nbsp; Equipe do culto</div><h1>Ordem do Louvor</h1><p>O repertório da igreja em um só lugar.</p></div></header>
 <main><nav aria-label="Área de trabalho"><button id="aba-regente" aria-pressed="true">Regente</button><button id="aba-musicos" aria-pressed="false">Músicos</button><button id="aba-midia" aria-pressed="false">Mídia</button><button id="aba-adm" aria-pressed="false">ADM</button></nav>
 <div id="alertas-config"><div class="acoes"><button id="notificacoes-btn" type="button">🔔 Ativar notificações</button><button id="notificacoes-parar" type="button" hidden>Desativar neste celular</button></div><p id="notificacoes-status" role="status">Receba avisos dos louvores diretamente no seu celular.</p></div>
-<section class="card" id="regente"><div class="secao">Cadastro</div><div id="conta-entrada"><h2>Cadastro do regente</h2><p>Informe seu nome e marque os grupos que você dirige. O cadastro fica salvo neste navegador, sem senha.</p><form id="form-conta"><label class="campo">Nome do regente<input name="nome" required maxlength="100" autocomplete="name" placeholder="Seu nome"></label><fieldset id="grupos-perfil"><legend>De quais grupos você é regente?</legend></fieldset><div class="acoes"><label class="campo">Não encontrou seu grupo?<input id="novo-grupo-perfil" maxlength="100" placeholder="Nome do novo grupo"></label><button id="adicionar-grupo-perfil" type="button">Adicionar grupo</button></div><p id="conta-erro" role="status"></p><button class="primary" type="submit">Salvar cadastro</button><p><button id="cancelar-perfil" type="button" hidden>Cancelar</button></p></form></div><div id="conta-conteudo" hidden><div class="barra"><p id="conta-nome"></p><button id="editar-perfil" type="button">Alterar cadastro</button></div><h2>Enviar um hino</h2><form id="form">
-<label class="campo">Nome do grupo<select name="grupo" id="grupo" required><option value="">Selecione o grupo</option></select></label><label class="campo" id="novo-grupo-campo" hidden>Novo grupo<input id="novo-grupo" maxlength="100" placeholder="Digite o nome do grupo"></label>
-<label class="campo">Nome do hino<input name="hino" maxlength="150" placeholder="Digite o nome do hino" required></label>
+<section class="card" id="regente"><div class="secao">Cadastro</div><div id="conta-entrada"><h2>Cadastro do regente</h2><p>Informe seu nome e marque os grupos que você dirige. O cadastro fica salvo neste navegador, sem senha.</p><form id="form-conta"><label class="campo">Nome do regente<input name="nome" required maxlength="100" autocomplete="name" placeholder="Seu nome"></label><fieldset id="grupos-perfil"><legend>De quais grupos você é regente?</legend></fieldset><p id="conta-erro" role="status"></p><button class="primary" type="submit">Salvar cadastro</button><p><button id="cancelar-perfil" type="button" hidden>Cancelar</button></p></form></div><div id="conta-conteudo" hidden><div class="barra"><p id="conta-nome"></p><button id="editar-perfil" type="button">Alterar cadastro</button></div><h2>Enviar um hino</h2><form id="form">
+<label class="campo">Nome do grupo<select name="grupo" id="grupo" required><option value="">Selecione o grupo</option></select></label><label class="campo">Nome do hino<input name="hino" maxlength="150" placeholder="Digite o nome do hino" required></label>
 <div class="acoes"><button id="buscar-youtube" type="button">🔎 Buscar no YouTube</button></div><p>Pesquise pelo nome, escolha a versão e o título e link serão preenchidos automaticamente.</p>
 <label class="campo">Cantor ou canal do YouTube (pode corrigir)<input name="cantor" maxlength="150" placeholder="Artista da versão escolhida"></label>
 <label class="campo">Link do YouTube<input name="youtube" type="url" maxlength="2048" placeholder="Preenchido ao selecionar o vídeo; ou cole manualmente" required></label>
@@ -433,7 +432,6 @@ form.onsubmit = async event => {
   aviso.textContent = 'Enviando hino…';
   try {
     const dados = Object.fromEntries(new FormData(form));
-    if (dados.grupo === '__novo__') dados.grupo = el('novo-grupo').value.trim();
     const resultado = await api('/api/hinos',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(dados)});
     await mostrarEnvios();
     form.reset();
@@ -584,7 +582,7 @@ el('form-ensaio').onsubmit=async event=>{
 };
 setInterval(()=>{if(abaAtual==='musicos'&&!document.hidden&&musicoPerfilAtual)carregarCompromissosMusicos();},45000);
 setInterval(()=>{if(abaAtual==='regente'&&!document.hidden&&perfilAtual)carregarPresencasRegente();},45000);
-const gruposPadrao = ['Jovens','Crianças','Adolescentes','Mocidade'];
+const gruposPadrao = ['Adolescentes','Crianças','Jovens','Mocidade','Varões','Círculo de Oração'];
 let todosGrupos = [...gruposPadrao];
 let perfilAtual = null;
 let revisaoConta = 0;
@@ -594,8 +592,6 @@ function preencherGrupoHino(selecionado = '') {
   const grupos = perfilAtual?.grupos || [];
   for (const nome of grupos) {const opt = add(select,'option',nome); opt.value = nome;}
   select.value = grupos.includes(selecionado) ? selecionado : grupos.length === 1 ? grupos[0] : '';
-  el('novo-grupo-campo').hidden = true;
-  el('novo-grupo').required = false;
   const ensaioSelect = el('grupo-ensaio');
   ensaioSelect.replaceChildren();
   const escolha = add(ensaioSelect,'option','Escolha um grupo'); escolha.value = '';
@@ -612,20 +608,12 @@ function desenharGruposCadastro(selecionados = perfilAtual?.grupos || []) {
   }
 }
 async function carregarGrupos(selecionado = '') {
-  try {todosGrupos = [...new Set([...gruposPadrao,...await api('/api/grupos')])];}
-  catch {el('conta-erro').textContent = 'Não foi possível carregar os grupos. Você pode adicionar o nome abaixo.';}
+  // Os nomes são definidos pela igreja; o cadastro não oferece inclusão de novos grupos.
+  todosGrupos = [...gruposPadrao];
   preencherGrupoHino(selecionado);
   desenharGruposCadastro();
   preencherGruposMusico();
 }
-el('adicionar-grupo-perfil').onclick = () => {
-  const input = el('novo-grupo-perfil'); const nome = input.value.trim();
-  if (!nome) {input.focus(); return;}
-  const selecionados = new FormData(el('form-conta')).getAll('grupos');
-  const existente = todosGrupos.find(g => g.toLocaleLowerCase('pt-BR') === nome.toLocaleLowerCase('pt-BR'));
-  todosGrupos.push(existente || nome); selecionados.push(existente || nome);
-  desenharGruposCadastro(selecionados); input.value = '';
-};
 function exibirPerfil() {
   revisaoConta++;
   el('conta-entrada').hidden = !!perfilAtual;
@@ -692,6 +680,9 @@ iniciarPerfil().catch(erro => el('conta-erro').textContent = erro.message);
 if (location.pathname === '/musicos') abrir('musicos');
 </script></body></html>`;
 
+const GRUPOS_PERMITIDOS = Object.freeze(['Adolescentes','Crianças','Jovens','Mocidade','Varões','Círculo de Oração']);
+function grupoAutorizado(nome,anteriores=[]) { return GRUPOS_PERMITIDOS.includes(nome) || anteriores.includes(nome); }
+
 function youtubeVideo(value) {
   try {
     const url = new URL(value);
@@ -754,7 +745,7 @@ async function rotaPerfil(request,env) {
   const dados = await request.json().catch(() => null);
   const nome = typeof dados?.nome === 'string' ? dados.nome.trim() : '';
   const grupos = Array.isArray(dados?.grupos) ? [...new Set(dados.grupos.filter(g => typeof g === 'string').map(g => g.trim()))] : [];
-  if (!nome || nome.length > 100 || !grupos.length || grupos.length > 50 || grupos.some(g => !g || g.length > 100)) return json({erro:'Informe seu nome e selecione de 1 a 50 grupos, com até 100 caracteres por nome.'},400);
+  if (!nome || nome.length > 100 || !grupos.length || grupos.length > 50 || grupos.some(g => !g || g.length > 100 || !grupoAutorizado(g,perfil?.grupos||[]))) return json({erro:'Informe seu nome e selecione apenas os grupos disponíveis no cadastro.'},400);
   const id = perfil?.id || crypto.randomUUID();
   const token = tokenCookie(request) || aleatorio();
   await env.DB.batch([
@@ -941,7 +932,7 @@ async function rotaMusicoPerfil(request,env) {
   const nome=typeof dados?.nome==='string'?dados.nome.trim():'';
   const instrumento=typeof dados?.instrumento==='string'?dados.instrumento.trim():'';
   const grupos=Array.isArray(dados?.grupos)?[...new Set(dados.grupos.filter(x=>typeof x==='string').map(x=>x.trim()))]:[];
-  if(!nome||nome.length>100||!instrumento||instrumento.length>100||grupos.length<1||grupos.length>30||grupos.some(x=>!x||x.length>100))
+  if(!nome||nome.length>100||!instrumento||instrumento.length>100||grupos.length<1||grupos.length>30||grupos.some(x=>!x||x.length>100||!grupoAutorizado(x,atual?.grupos||[])))
     return json({erro:'Informe seu nome, instrumento e pelo menos um grupo.'},400);
   const id=atual?.id||crypto.randomUUID();
   const token=tokenMusico(request)||aleatorio();
@@ -1123,8 +1114,7 @@ export default {
         return json(results);
       }
       if (request.method === 'GET' && url.pathname === '/api/grupos') {
-        const {results} = await env.DB.prepare('SELECT nome FROM grupos UNION SELECT DISTINCT grupo AS nome FROM hinos ORDER BY nome').all();
-        return json(results.map(row => row.nome));
+        return json([...GRUPOS_PERMITIDOS]);
       }
       if (request.method === 'GET' && ['/api/hinos','/api/musicos'].includes(url.pathname)) {
         if (url.pathname === '/api/hinos') {

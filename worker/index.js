@@ -758,7 +758,7 @@ async function gerenciarGrupos(request,env) {
   if(!['POST','DELETE'].includes(request.method))return json({erro:'Método não permitido.'},405);
   const dados=await request.json().catch(()=>null);
   const nome=typeof dados?.nome==='string'?dados.nome.trim():'';
-  if(!nome||nome.length>100||/[\\u0000-\\u001f\\u007f]/.test(nome))return json({erro:'Digite um nome de grupo válido, com até 100 caracteres.'},400);
+  if(!nome||nome.length>100||[...nome].some(letra => letra.charCodeAt(0) < 32 || letra.charCodeAt(0) === 127))return json({erro:'Digite um nome de grupo válido, com até 100 caracteres.'},400);
   await prepararGruposGerenciados(env);
   if(request.method==='POST') {
     const existente=await env.DB.prepare('SELECT nome,ativo FROM grupos_cadastro WHERE nome = ?').bind(nome).first();

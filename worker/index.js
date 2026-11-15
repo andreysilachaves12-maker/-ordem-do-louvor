@@ -3,7 +3,7 @@ const page = `<!doctype html>
 <style>
 :root{color-scheme:dark;font:16px system-ui,sans-serif;background:#111729;color:#f7f4ec}*{box-sizing:border-box}[hidden]{display:none!important}body{margin:0}header{background:radial-gradient(ellipse at right,#313864,#191f38 66%);border-bottom:1px solid #424966;padding:3rem 1.2rem 5rem}header>div,main{max-width:700px;margin:auto}.marca,.secao{color:#ffce82;font-size:.75rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase}h1{font-size:clamp(2.6rem,9vw,4rem);line-height:1;margin:.55rem 0;font-family:Georgia,serif;font-weight:normal}p{color:#c4cae2;line-height:1.5}header p{margin:.8rem 0 0}main{position:relative;margin:-2.25rem auto 3rem;padding:0 1rem}.card,nav,article{border:1px solid #404967;background:#1b233b;border-radius:18px;padding:1.25rem}nav{display:flex;padding:.35rem;gap:.35rem;margin-bottom:1rem}nav button{flex:1;border:0;padding:.75rem .35rem;min-width:0;font-size:.9rem}textarea{resize:vertical}.orientacoes{white-space:pre-wrap;overflow-wrap:anywhere}button,a{font:inherit}button,.acoes .cifra{cursor:pointer;padding:.8rem 1rem;border-radius:10px;border:1px solid #606c91;background:#293453;color:#fff;font-weight:700}button[aria-pressed=true],.primary{background:#ffce82;color:#221b15;border-color:#ffce82}button:disabled{opacity:.65;cursor:wait}h2{margin:.35rem 0 .5rem}label,legend{font-weight:700}label.campo{display:block;margin-top:1rem}select,textarea,input:not([type=radio]):not([type=checkbox]){display:block;width:100%;margin-top:.4rem;background:#141b30;color:#fff;border:1px solid #657094;border-radius:9px;padding:.78rem;font:inherit}fieldset{margin:1.15rem 0;padding:.7rem;border:1px solid #606c91;border-radius:10px;display:flex;flex-wrap:wrap;gap:1rem}fieldset label{padding:.35rem;cursor:pointer}input[type=radio]{accent-color:#ffce82}.primary{width:100%}#aviso{min-height:1.5em;color:#ffda9e}article{margin-top:.75rem;padding:1rem;background:#151c31}article h3{margin:.35rem 0;font-size:1.3rem;overflow-wrap:anywhere}.grupo{margin:.35rem 0;color:#c4cae2;overflow-wrap:anywhere}.acoes{display:flex;align-items:center;flex-wrap:wrap;gap:.75rem;margin-top:.75rem}.acoes a{color:#ffda9e}.acoes .cifra{text-decoration:none}.barra{display:flex;align-items:center;justify-content:space-between;gap:.5rem}.status{color:#b8e6ca;font-weight:700}.status-pendente{color:#ffda9e;font-weight:700}.vazio{padding:1rem;border:1px dashed #657094;border-radius:12px}:focus-visible{outline:3px solid #ffce82;outline-offset:3px}
 .acoes .excluir{background:transparent;color:#ffb8b8;border-color:#915d6e}#youtube-resultados article{display:flex;gap:.85rem;align-items:flex-start}#youtube-resultados img{width:120px;max-width:34%;aspect-ratio:16/9;object-fit:cover;border-radius:8px}#youtube-resultados .resultado-conteudo{flex:1;min-width:0}#youtube-resultados .resultado-conteudo p{margin:.3rem 0 .6rem}#youtube-resultados button{padding:.55rem .75rem}
-#plano-b-musicos{margin-top:1.25rem;padding:.8rem 1rem;border:1px solid #606c91;border-radius:14px;background:#151c31}#plano-b-musicos summary{cursor:pointer;color:#ffce82;font-weight:800;line-height:1.5;padding:.3rem 0}#plano-b-musicos[open] summary{margin-bottom:.5rem}#plano-b-musicos article{background:#1b233b}
+#plano-b-musicos{margin-top:1.25rem;padding:.8rem 1rem;border:1px solid #606c91;border-radius:14px;background:#151c31}#plano-b-musicos summary{cursor:pointer;color:#ffce82;font-weight:800;line-height:1.5;padding:.3rem 0}#plano-b-musicos[open] summary{margin-bottom:.5rem}#plano-b-musicos article{background:#1b233b}#adm-grupos{margin-top:1.5rem;padding-top:1.3rem;border-top:1px solid #606c91}#adm-grupos .item-grupo{display:flex;align-items:center;justify-content:space-between;gap:.5rem;border-bottom:1px solid #404967;padding:.7rem 0}#adm-grupos .item-grupo span{overflow-wrap:anywhere}#adm-grupos .excluir-grupo{background:transparent;border-color:#915d6e;color:#ffb8b8}
 .presencas-area{margin:1rem 0}.presencas-area article{padding:1rem}.presencas-area h3{margin:.35rem 0}.presencas-status{font-weight:700;color:#ffce82}.presencas-selecoes{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.75rem}.presencas-selecoes button{flex:1;min-width:120px}.presencas-selecoes button[aria-pressed=true]{background:#ffce82;color:#221b15}.presencas-apoio{font-size:.9rem;color:#c4cae2}.presencas-detalhes{white-space:pre-wrap;overflow-wrap:anywhere}.presencas-grupos{display:flex;flex-wrap:wrap;gap:.65rem;padding:.65rem;border:1px solid #606c91;border-radius:10px;margin-top:.6rem}.presencas-grupos label{font-weight:normal}.presencas-resumo{margin:.3rem 0}.link-musicos{color:#ffce82;overflow-wrap:anywhere}
 #player,#confirmar-exclusao,#acesso,#busca-youtube-dialog{width:min(92vw,680px);max-height:90dvh;border:1px solid #606c91;border-radius:18px;background:#1b233b;color:#f7f4ec;padding:1rem}#player::backdrop,#confirmar-exclusao::backdrop,#acesso::backdrop,#busca-youtube-dialog::backdrop{background:#080c18cc}#player-video iframe{display:block;width:100%;aspect-ratio:16/9;min-height:200px;border:0;margin-top:1rem}
 #alertas-config{margin-bottom:1rem;padding:.8rem 1rem;border:1px solid #404967;border-radius:14px;background:#1b233b}#alertas-config p{font-size:.85rem;margin:.35rem 0 0}#alertas-config .acoes{margin-top:0}#alertas-config button{font-size:.9rem;padding:.65rem .8rem}#notificacoes-status{color:#d5e0ff}
@@ -47,7 +47,15 @@ const page = `<!doctype html>
 <p class="presencas-apoio">Escolha uma opção para cada ensaio ou culto. Você pode alterar a resposta depois.</p>
 <div id="lista-compromissos-musico" aria-live="polite"></div>
 </div></section>
-<section class="card" id="midia" hidden><div class="secao" id="secao-lista">Equipe de mídia</div><div class="barra"><h2 id="titulo-lista">Hinos recebidos</h2><button id="atualizar">Atualizar</button></div><label class="campo">Data do culto<input id="filtro-data" type="date"></label><p><button id="todas-datas">Próximos cultos</button></p><div id="fila"></div></section>
+<section class="card" id="midia" hidden><div class="secao" id="secao-lista">Equipe de mídia</div><div class="barra"><h2 id="titulo-lista">Hinos recebidos</h2><button id="atualizar">Atualizar</button></div><label class="campo">Data do culto<input id="filtro-data" type="date"></label><p><button id="todas-datas">Próximos cultos</button></p><div id="fila"></div>
+<section id="adm-grupos" hidden><h2>⚙️ Gerenciar grupos</h2>
+<p>Somente o ADM pode adicionar ou apagar grupos. Ao apagar, o grupo deixa de aparecer nos novos cadastros, mas os hinos já enviados são preservados.</p>
+<form id="form-grupo-adm">
+<label class="campo">Nome do novo grupo<input id="adm-nome-grupo" name="nome" maxlength="100" required placeholder="Digite o nome do grupo"></label>
+<button class="primary" type="submit">Adicionar grupo</button>
+</form>
+<p id="adm-grupo-aviso" role="status"></p>
+<h3>Grupos disponíveis</h3><div id="adm-lista-grupos" aria-live="polite"></div></section></section>
 <p id="aviso" role="status"></p></main>
 <dialog id="player" aria-labelledby="player-titulo">
 <div class="barra"><h2 id="player-titulo"></h2><form method="dialog"><button>Fechar</button></form></div>
@@ -403,6 +411,7 @@ function abrir(aba, senha = null) {
   el('regente').hidden = aba !== 'regente';
   el('presencas-musicos').hidden = aba !== 'musicos';
   midia.hidden = aba === 'regente';
+  el('adm-grupos').hidden = aba !== 'adm';
   el('secao-lista').textContent = adm ? 'Administração' : aba === 'musicos' ? 'Equipe de músicos' : 'Equipe de mídia';
   el('titulo-lista').textContent = adm ? 'Gerenciar hinos' : 'Hinos recebidos';
   for (const nome of ['regente','midia','musicos','adm']) {
@@ -412,8 +421,10 @@ function abrir(aba, senha = null) {
   delete el('fila').dataset.atual;
   aviso.textContent = '';
   if (!midia.hidden) carregar();
-  if (aba === 'musicos') carregarCompromissosMusicos();
-  else if (perfilAtual) {mostrarEnvios();carregarPresencasRegente();}
+  if (aba === 'adm') carregarAdminGrupos();
+  if (aba === 'musicos') carregarGrupos().then(() => carregarCompromissosMusicos());
+  else if (aba === 'regente') carregarGrupos();
+  if (aba === 'regente' && perfilAtual) {mostrarEnvios();carregarPresencasRegente();}
 }
 el('aba-regente').onclick = () => abrir('regente');
 el('filtro-data').onchange = () => carregar();
@@ -453,7 +464,7 @@ let editandoMusico = false;
 function preencherGruposMusico() {
   const area = el('musico-grupos');
   const selecionados = musicoPerfilAtual?.grupos || [];
-  const nomes = [...new Set([...todosGrupos,...selecionados])].sort((a,b)=>a.localeCompare(b,'pt-BR'));
+  const nomes = [...todosGrupos].sort((a,b)=>a.localeCompare(b,'pt-BR'));
   area.replaceChildren();
   if (!nomes.length) add(area,'p','Nenhum grupo cadastrado no momento.');
   for (const nome of nomes) {
@@ -582,14 +593,13 @@ el('form-ensaio').onsubmit=async event=>{
 };
 setInterval(()=>{if(abaAtual==='musicos'&&!document.hidden&&musicoPerfilAtual)carregarCompromissosMusicos();},45000);
 setInterval(()=>{if(abaAtual==='regente'&&!document.hidden&&perfilAtual)carregarPresencasRegente();},45000);
-const gruposPadrao = ['Adolescentes','Crianças','Jovens','Mocidade','Varões','Círculo de Oração'];
-let todosGrupos = [...gruposPadrao];
+let todosGrupos = [];
 let perfilAtual = null;
 let revisaoConta = 0;
 function preencherGrupoHino(selecionado = '') {
   const select = el('grupo'); select.replaceChildren();
   const vazio = add(select,'option','Selecione o grupo'); vazio.value = '';
-  const grupos = perfilAtual?.grupos || [];
+  const grupos = (perfilAtual?.grupos || []).filter(nome => todosGrupos.includes(nome));
   for (const nome of grupos) {const opt = add(select,'option',nome); opt.value = nome;}
   select.value = grupos.includes(selecionado) ? selecionado : grupos.length === 1 ? grupos[0] : '';
   const ensaioSelect = el('grupo-ensaio');
@@ -600,7 +610,7 @@ function preencherGrupoHino(selecionado = '') {
 function desenharGruposCadastro(selecionados = perfilAtual?.grupos || []) {
   const campo = el('grupos-perfil'); campo.replaceChildren();
   add(campo,'legend','De quais grupos você é regente?');
-  const nomes = [...new Set([...todosGrupos,...selecionados])].sort((a,b) => a.localeCompare(b,'pt-BR'));
+  const nomes = [...todosGrupos].sort((a,b) => a.localeCompare(b,'pt-BR'));
   for (const nome of nomes) {
     const label = add(campo,'label','');
     const input = document.createElement('input'); input.type = 'checkbox'; input.name = 'grupos'; input.value = nome; input.checked = selecionados.includes(nome);
@@ -608,12 +618,56 @@ function desenharGruposCadastro(selecionados = perfilAtual?.grupos || []) {
   }
 }
 async function carregarGrupos(selecionado = '') {
-  // Os nomes são definidos pela igreja; o cadastro não oferece inclusão de novos grupos.
-  todosGrupos = [...gruposPadrao];
+  try {
+    todosGrupos = await api('/api/grupos');
+    el('conta-erro').textContent = '';
+  } catch (erro) {
+    todosGrupos = [];
+    el('conta-erro').textContent = 'Não foi possível carregar os grupos. Atualize a página.';
+  }
   preencherGrupoHino(selecionado);
   desenharGruposCadastro();
   preencherGruposMusico();
 }
+async function carregarAdminGrupos() {
+  if (abaAtual !== 'adm' || senhaAcesso === null) return;
+  const lista=el('adm-lista-grupos');
+  try {
+    const nomes=await api('/api/adm/grupos',{headers:{'X-Repertorio-Senha':senhaAcesso}});
+    if (abaAtual !== 'adm') return;
+    lista.replaceChildren();
+    if (!nomes.length) add(lista,'p','Nenhum grupo disponível. Cadastre um grupo acima.','vazio');
+    for(const nome of nomes) {
+      const linha=add(lista,'div','','item-grupo');
+      add(linha,'span',nome);
+      const botao=add(linha,'button','Apagar','excluir-grupo');
+      botao.type='button';
+      botao.onclick=async()=>{
+        if (!confirm('Apagar o grupo “'+nome+'” dos novos cadastros? Os hinos antigos não serão apagados.')) return;
+        botao.disabled=true;el('adm-grupo-aviso').textContent='';
+        try {
+          await api('/api/adm/grupos',{method:'DELETE',headers:{'Content-Type':'application/json','X-Repertorio-Senha':senhaAcesso},body:JSON.stringify({nome})});
+          el('adm-grupo-aviso').textContent='Grupo removido dos novos cadastros: '+nome+'.';
+          await carregarAdminGrupos();
+        } catch(erro){el('adm-grupo-aviso').textContent=erro.message;botao.disabled=false;}
+      };
+    }
+  } catch(erro) {lista.replaceChildren();add(lista,'p',erro.message,'vazio');}
+}
+el('form-grupo-adm').onsubmit=async evento=>{
+  evento.preventDefault();
+  if (abaAtual !== 'adm' || senhaAcesso === null) return;
+  const form=el('form-grupo-adm'),botao=form.querySelector('button[type=submit]');
+  botao.disabled=true;el('adm-grupo-aviso').textContent='';
+  try {
+    const nome=el('adm-nome-grupo').value.trim();
+    await api('/api/adm/grupos',{method:'POST',headers:{'Content-Type':'application/json','X-Repertorio-Senha':senhaAcesso},body:JSON.stringify({nome})});
+    form.reset();
+    el('adm-grupo-aviso').textContent='Grupo adicionado com sucesso.';
+    await carregarAdminGrupos();
+  } catch(erro){el('adm-grupo-aviso').textContent=erro.message;}
+  finally{botao.disabled=false;}
+};
 function exibirPerfil() {
   revisaoConta++;
   el('conta-entrada').hidden = !!perfilAtual;
@@ -680,8 +734,42 @@ iniciarPerfil().catch(erro => el('conta-erro').textContent = erro.message);
 if (location.pathname === '/musicos') abrir('musicos');
 </script></body></html>`;
 
-const GRUPOS_PERMITIDOS = Object.freeze(['Adolescentes','Crianças','Jovens','Mocidade','Varões','Círculo de Oração']);
-function grupoAutorizado(nome,anteriores=[]) { return GRUPOS_PERMITIDOS.includes(nome) || anteriores.includes(nome); }
+const GRUPOS_INICIAIS = Object.freeze(['Adolescentes','Crianças','Jovens','Mocidade','Varões','Círculo de Oração']);
+async function prepararGruposGerenciados(env) {
+  // Não altera hinos nem perfis. ativo=0 impede que um grupo apagado reapareça.
+  await env.DB.prepare("CREATE TABLE IF NOT EXISTS grupos_cadastro (nome TEXT PRIMARY KEY COLLATE NOCASE, ativo INTEGER NOT NULL DEFAULT 1)").run();
+  await env.DB.batch(GRUPOS_INICIAIS.map(nome =>
+    env.DB.prepare('INSERT OR IGNORE INTO grupos_cadastro (nome,ativo) VALUES (?,1)').bind(nome)
+  ));
+}
+async function listarGruposAtivos(env) {
+  await prepararGruposGerenciados(env);
+  const {results}=await env.DB.prepare('SELECT nome FROM grupos_cadastro WHERE ativo = 1 ORDER BY nome COLLATE NOCASE').all();
+  return results.map(row=>row.nome);
+}
+async function grupoAtivo(env,nome) {
+  await prepararGruposGerenciados(env);
+  return !!await env.DB.prepare('SELECT nome FROM grupos_cadastro WHERE nome = ? AND ativo = 1').bind(nome).first();
+}
+async function gerenciarGrupos(request,env) {
+  const erro=verificarSenha(request.headers.get('X-Repertorio-Senha'),env);
+  if(erro)return erro;
+  if(request.method==='GET')return json(await listarGruposAtivos(env));
+  if(!['POST','DELETE'].includes(request.method))return json({erro:'Método não permitido.'},405);
+  const dados=await request.json().catch(()=>null);
+  const nome=typeof dados?.nome==='string'?dados.nome.trim():'';
+  if(!nome||nome.length>100||/[\\u0000-\\u001f\\u007f]/.test(nome))return json({erro:'Digite um nome de grupo válido, com até 100 caracteres.'},400);
+  await prepararGruposGerenciados(env);
+  if(request.method==='POST') {
+    const existente=await env.DB.prepare('SELECT nome,ativo FROM grupos_cadastro WHERE nome = ?').bind(nome).first();
+    if(existente?.ativo)return json({erro:'Esse grupo já está cadastrado.'},409);
+    if(existente) await env.DB.prepare('UPDATE grupos_cadastro SET ativo = 1 WHERE nome = ?').bind(nome).run();
+    else await env.DB.prepare('INSERT INTO grupos_cadastro (nome,ativo) VALUES (?,1)').bind(nome).run();
+    return json({ok:true},201);
+  }
+  const resultado=await env.DB.prepare('UPDATE grupos_cadastro SET ativo = 0 WHERE nome = ? AND ativo = 1').bind(nome).run();
+  return resultado.meta.changes?json({ok:true}):json({erro:'Grupo não encontrado.'},404);
+}
 
 function youtubeVideo(value) {
   try {
@@ -745,7 +833,8 @@ async function rotaPerfil(request,env) {
   const dados = await request.json().catch(() => null);
   const nome = typeof dados?.nome === 'string' ? dados.nome.trim() : '';
   const grupos = Array.isArray(dados?.grupos) ? [...new Set(dados.grupos.filter(g => typeof g === 'string').map(g => g.trim()))] : [];
-  if (!nome || nome.length > 100 || !grupos.length || grupos.length > 50 || grupos.some(g => !g || g.length > 100 || !grupoAutorizado(g,perfil?.grupos||[]))) return json({erro:'Informe seu nome e selecione apenas os grupos disponíveis no cadastro.'},400);
+  const ativos = await listarGruposAtivos(env);
+  if (!nome || nome.length > 100 || !grupos.length || grupos.length > 50 || grupos.some(g => !g || g.length > 100 || !ativos.includes(g))) return json({erro:'Informe seu nome e selecione apenas os grupos disponíveis no cadastro.'},400);
   const id = perfil?.id || crypto.randomUUID();
   const token = tokenCookie(request) || aleatorio();
   await env.DB.batch([
@@ -932,7 +1021,8 @@ async function rotaMusicoPerfil(request,env) {
   const nome=typeof dados?.nome==='string'?dados.nome.trim():'';
   const instrumento=typeof dados?.instrumento==='string'?dados.instrumento.trim():'';
   const grupos=Array.isArray(dados?.grupos)?[...new Set(dados.grupos.filter(x=>typeof x==='string').map(x=>x.trim()))]:[];
-  if(!nome||nome.length>100||!instrumento||instrumento.length>100||grupos.length<1||grupos.length>30||grupos.some(x=>!x||x.length>100||!grupoAutorizado(x,atual?.grupos||[])))
+  const ativos=await listarGruposAtivos(env);
+  if(!nome||nome.length>100||!instrumento||instrumento.length>100||grupos.length<1||grupos.length>30||grupos.some(x=>!x||x.length>100||!ativos.includes(x)))
     return json({erro:'Informe seu nome, instrumento e pelo menos um grupo.'},400);
   const id=atual?.id||crypto.randomUUID();
   const token=tokenMusico(request)||aleatorio();
@@ -1010,7 +1100,7 @@ async function rotaEnsaios(request,env,ctx) {
   const data=dados?.data, horario=dados?.horario;
   const local=typeof dados?.local==='string'?dados.local.trim():'';
   const observacoes=typeof dados?.observacoes==='string'?dados.observacoes.trim():'';
-  if(!regente.grupos.includes(grupo)||!dataValida(data)||data<hoje()||
+  if(!regente.grupos.includes(grupo)||!(await grupoAtivo(env,grupo))||!dataValida(data)||data<hoje()||
      typeof horario!=='string'||!/^([01][0-9]|2[0-3]):[0-5][0-9]$/.test(horario)||
      local.length>160||observacoes.length>500)
     return json({erro:'Confira o grupo, a data e o horário do ensaio.'},400);
@@ -1082,6 +1172,7 @@ export default {
         if(!Number.isSafeInteger(id))return json({erro:'Ensaio inválido.'},400);
         return await rotaExcluirEnsaio(request,env,id);
       }
+      if (url.pathname === '/api/adm/grupos') return await gerenciarGrupos(request,env);
       if (url.pathname === '/api/perfil') return await rotaPerfil(request,env);
       if (request.method === 'GET' && url.pathname === '/api/youtube') {
         const conta = await obterConta(request,env);
@@ -1114,7 +1205,7 @@ export default {
         return json(results);
       }
       if (request.method === 'GET' && url.pathname === '/api/grupos') {
-        return json([...GRUPOS_PERMITIDOS]);
+        return json(await listarGruposAtivos(env));
       }
       if (request.method === 'GET' && ['/api/hinos','/api/musicos'].includes(url.pathname)) {
         if (url.pathname === '/api/hinos') {
@@ -1167,7 +1258,7 @@ export default {
           if (!grupo || grupo.length > 100 || !hino || hino.length > 150 || !youtube || !['vivo','audio'].includes(data?.modo)) {
             return json({erro:'Preencha o grupo e o hino, escolha o modo e informe um link válido de vídeo do YouTube.'},400);
           }
-          if (!conta.grupos.includes(grupo)) return json({erro:'Escolha um dos grupos do seu cadastro. Use Alterar cadastro para incluir outro grupo.'},400);
+          if (!conta.grupos.includes(grupo) || !(await grupoAtivo(env,grupo))) return json({erro:'Escolha um grupo ativo do seu cadastro.'},400);
           if (!dataValida(data.data_louvor)) {
             return json({erro:'Informe uma data válida para o louvor.'},400);
           }

@@ -16,6 +16,7 @@ const env = {
         bind(...args) {this.args=args;return this;},
         async first() {
           const a=this.args;
+          if(sql.startsWith('SELECT nome FROM grupos_cadastro WHERE nome')) return ['Jovens','Varões','Crianças','Mocidade','Adolescentes','Círculo de Oração'].includes(a[0]) ? {nome:a[0]} : null;
           if(sql.startsWith('SELECT p.id,p.nome,p.grupos FROM perfis')) {
             const sess=DB.sessaoRegente.get(a[0]);
             return sess && sess.expira>a[1] ? DB.perfis.get(sess.id) : null;
@@ -32,6 +33,7 @@ const env = {
         },
         async all() {
           const a=this.args;
+          if(sql.startsWith('SELECT nome FROM grupos_cadastro WHERE ativo = 1')) return {results:['Jovens','Varões','Crianças','Mocidade','Adolescentes','Círculo de Oração'].map(nome=>({nome}))};
           if(sql.startsWith('SELECT id,grupo,data,horario,local,observacoes,regente_id FROM ensaios'))
             return {results:DB.ensaios.filter(e=>e.data>=a[0])};
           if(sql.startsWith('SELECT DISTINCT grupo,data_louvor FROM hinos'))

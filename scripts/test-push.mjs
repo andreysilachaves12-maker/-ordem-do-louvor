@@ -12,6 +12,7 @@ const env = {
         bind(...args) { this.args = args; return this; },
         async first() {
           if (sql.includes('SELECT publica, privada FROM push_chaves')) return chaves;
+          if (sql.startsWith('SELECT nome FROM grupos_cadastro WHERE nome')) return this.args[0] === 'Jovens' ? {nome:'Jovens'} : null;
           if (sql.includes('SELECT p.id,p.nome,p.grupos FROM perfis')) {
             return {id:'regente-1',nome:'Regente teste',grupos:'["Jovens"]'};
           }
